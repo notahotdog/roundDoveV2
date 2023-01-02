@@ -11,7 +11,7 @@ const itemSchema = new Schema({
   },
 });
 
-//TODO - Decide on the name, and populate contents
+//TODO - Decide on the name, and populate contents - changed From Hazard Schema
 const fieldSchema = new Schema({});
 
 const subnodeSchema = new Schema({
