@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 //Decides if item is visible
-const itemSchema = new Schema({
+const itemVisibleSchema = new Schema({
   name: {
     type: String,
   },
@@ -11,15 +11,31 @@ const itemSchema = new Schema({
   },
 });
 
-//TODO - Decide on the name, and populate contents - changed From Hazard Schema
-const fieldSchema = new Schema({});
+//TODO - Decide on the name, and populate contents - changed From Hazard Schema - How is this different from item.model
+const itemSchema = new Schema({
+  itemName: {
+    type: String,
+  },
+  detail1: {
+    type: [itemVisibleSchema],
+  },
+  detail2: {
+    type: [itemVisibleSchema],
+  },
+  detail3: {
+    type: [itemVisibleSchema],
+  },
+  detail4: {
+    type: [itemVisibleSchema],
+  },
+});
 
 const subnodeSchema = new Schema({
   subnodeName: {
     type: String,
   },
   hazards: {
-    type: [fieldSchema],
+    type: [itemSchema],
   },
 });
 
