@@ -6,7 +6,7 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 import WorkshopModal from "./ModalComponents/CreateWorkshopModal";
-// import WorkshopTable from "./WorkshopTable";
+import WorkshopTable from "./WorkshopTable";
 import { Link } from "react-router-dom";
 
 export default class WorkshopCreationPage extends Component {
@@ -16,8 +16,6 @@ export default class WorkshopCreationPage extends Component {
     this.state = {
       modalVisible: false,
     };
-    // this.showModal = this.showModal.bind(this);
-    // this.hideModal = this.hideModal.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
   }
 
@@ -29,20 +27,6 @@ export default class WorkshopCreationPage extends Component {
     const toggleVal = !this.state.modalVisible;
     this.setState({ modalVisible: toggleVal });
   };
-
-  //   /**
-  //    * Displays New Workshop Modal
-  //    */
-  //   showModal = () => {
-  //     this.setState({ modalVisible: true });
-  //   };
-
-  //   /**
-  //    * Hides New Workshop Modal
-  //    */
-  //   hideModal = () => {
-  //     this.setState({ modalVisible: false });
-  //   };
 
   render() {
     return (
@@ -98,7 +82,7 @@ export default class WorkshopCreationPage extends Component {
             </div>
           </div>
 
-          {/* <WorkshopTable /> */}
+          <WorkshopTable />
         </div>
       </Layout>
     );
