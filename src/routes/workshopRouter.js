@@ -1,8 +1,6 @@
 const router = require("express").Router();
 let Workshop = require("../models/workshop.model");
-
-//For the overarching workshop routes
-// let Hazard = require("../models/hazard.model");
+let Item = require("../models/item.model"); //to obtain itemSchema
 
 var exportFile = require("../util/export2Excel.js");
 
@@ -12,79 +10,6 @@ router.route("/").get((req, res) => {
     .then((users) => res.json(users))
     .catch((err) => res.status(400).json("Error: " + err));
 });
-
-//Route is used to export workshop data as pdf
-router.route("/exportToExcel").post((req, res) => {
-  const jsonData = req.body;
-  var excelData = exportFile.saveToExcel(jsonData);
-  excelData.write("WorkshopExcel.xlsx", res); //TODO - Replace "WorkshopExcel" with Name of file required
-});
-
-// /**
-//  * Retrieve Hazard Data from endpoint
-//  */
-// router.route("/hazard").get((req, res) => {
-//   Hazard.find()
-//     .then((users) => res.json(users))
-//     .catch((err) => res.status(400).json("Error" + err));
-// });
-
-// /**
-//  * Add Hazard to endpoint
-//  */
-// router.route("/addHazard").post((req, res) => {
-//   const hazardName = req.body.hazardName;
-//   const causes = req.body.causes;
-//   const consequences = req.body.consequences;
-//   const preventativeSafeguards = req.body.preventativeSafeguards;
-//   const mitigatingSafeguards = req.body.mitigatingSafeguards;
-
-//   const newHazard = new Hazard({
-//     hazardName,
-//     causes,
-//     consequences,
-//     preventativeSafeguards,
-//     mitigatingSafeguards,
-//   });
-
-//   console.log("Router Saving Hazard");
-
-//   newHazard
-//     .save()
-//     .then(() => res.json("Hazard Added"))
-//     .catch((err) => res.status(400).json("Error" + err));
-// });
-
-// //Delete Hazard
-// router.route("/deleteHazard").delete((req, res) => {
-//   // const id = req.body.id;
-//   Hazard.findByIdAndDelete(req.body.id)
-//     .then(() => res.json("Hazard Deleted"))
-//     .catch((err) => res.status(404).json("Error" + err));
-// });
-
-// //Update Hazard
-// router.route("/updateHazard").post((req, res) => {
-//   const id = req.body.id; //Id to update the hazard
-
-//   const hazardName = req.body.hazardName;
-//   const causes = req.body.causes;
-//   const consequences = req.body.consequences;
-//   const preventativeSafeguards = req.body.preventativeSafeguards;
-//   const mitigatingSafeguards = req.body.mitigatingSafeguards;
-
-//   var updatedHazard = {
-//     hazardName,
-//     causes,
-//     consequences,
-//     preventativeSafeguards,
-//     mitigatingSafeguards,
-//   };
-
-//   Hazard.findByIdAndUpdate(req.body.id, updatedHazard)
-//     .then(() => res.json("Hazard Updated"))
-//     .catch((err) => res.status(404).json("Error: " + err));
-// });
 
 //POST Request - Add Workshop
 router.route("/addWorkshop").post((req, res) => {
@@ -136,6 +61,76 @@ router.route("/:id").delete((req, res) => {
   Workshop.findByIdAndDelete(req.params.id)
     .then(() => res.json("Workshop deleted"))
     .catch((err) => res.status(400).json("Error: " + err));
+});
+
+/**
+ * Retrieve Item Data from endpoint
+ */
+router.route("/item").get((req, res) => {
+  Item.find()
+    .then((users) => res.json(users))
+    .catch((err) => res.status(400).json("Error" + err));
+});
+
+/**
+ * Add Hazard to endpoint //TODO-Whichever endpoint that calls this needs to change the fields it passes
+ */
+router.route("/addItem").post((req, res) => {
+  const itemName = req.body.itemName;
+  const detail1 = req.body.detail1;
+  const detail2 = req.body.detail2;
+  const detail3 = req.body.detail3;
+  const detail4 = req.body.detail4;
+
+  const newItem = new Item({
+    itemName,
+    detail1,
+    detail2,
+    detail3,
+    detail4,
+  });
+
+  console.log("Router Saving Item");
+
+  newItem
+    .save()
+    .then(() => res.json("Item Added"))
+    .catch((err) => res.status(400).json("Error" + err));
+});
+
+///Delete Item
+router.route("/deleteItem").delete((req, res) => {
+  Item.findByIdAndDelete(req.body.id)
+    .then(() => res.json("Item Deleted"))
+    .catch((err) => res.status(404).json("Error" + err));
+});
+
+//Update Item
+router.route("/updateItem").post((req, res) => {
+  const itemName = req.body.itemName;
+  const detail1 = req.body.detail1;
+  const detail2 = req.body.detail2;
+  const detail3 = req.body.detail3;
+  const detail4 = req.body.detail4;
+
+  var updatedItem = {
+    itemName,
+    detail1,
+    detail2,
+    detail3,
+    detail4,
+  };
+
+  Item.findByIdAndUpdate(req.body.id, updatedItem)
+    .then(() => res.json("Item Updated"))
+    .catch((err) => res.status(404).json("Error: " + err));
+});
+
+///Used to export workshop data as pdf
+router.route("/exportToExcel").post((req, res) => {
+  const jsonData = req.body;
+  var excelData = exportFile.saveToExcel(jsonData);
+  excelData.write("WorkshopExcel.xlsx", res); //TODO - Replace "WorkshopExcel" with Name of file required
 });
 
 module.exports = router;

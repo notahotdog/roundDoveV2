@@ -34,7 +34,7 @@ const subnodeSchema = new Schema({
   subnodeName: {
     type: String,
   },
-  hazards: {
+  items: {
     type: [itemSchema],
   },
 });

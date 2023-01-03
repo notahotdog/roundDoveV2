@@ -6,12 +6,12 @@ const templateKeys = [
   "nodeName",
   "subnodes",
   "subnodeName",
-  "hazards",
-  "hazardName",
-  "causes",
-  "consequences",
-  "preventativeSafeguards",
-  "mitigatingSafeguards",
+  "items",
+  "itemName",
+  "detail1",
+  "detail2",
+  "detail3",
+  "detail4",
 ];
 
 //recursively obtain all keys used and puts them into an array
@@ -53,11 +53,11 @@ export function CompareObjects(testObj) {
   return false;
 }
 
-//Ensures that repeated instances of the object are removed from the array
+//Ensures that repeated instances of the object are removed from the array //TODO - Replace this
 /**
  *
  * @param {array of objects} array
- * @param {string} hazard to be removed
+ * @param {string} item to be removed
  */
 export function filterMoreThanOneInstanceHazard(array, hazard) {
   var oneInstanceFound = false;
@@ -126,48 +126,58 @@ export function getSubNodeTemplate(name) {
  */
 export const subnodeTemplate = {
   subnodeName: "Default subnode",
-  hazards: [
+  items: [
     {
-      hazardName: "Default Hazard",
-      hazardAllocated: false,
-      causes: [{ name: "Default Cause", visible: true }],
-      consequences: [{ name: "Default Consequence", visible: true }],
-      preventativeSafeguards: [
-        { name: "Default preventative safeguard", visible: true },
-      ],
-      mitigatingSafeguards: [
-        { name: "Default mitigating safeguard", visible: true },
-      ],
+      itemName: "Default Item",
+      itemAllocated: false,
+      detail1: [{ name: "Detail 1", visible: true }],
+      detail2: [{ name: "Detail 2", visible: true }],
+      detail3: [{ name: "Detail 3", visible: true }],
+      detail4: [{ name: "Detail 4", visible: true }],
     },
   ],
+};
+/*
+ * Item JSON Template
+ */
+export const itemTemplate = {
+  itemName: "Default Hazard",
+  itemAllocated: false,
+  detail1: ["Detail 1"],
+  detail2: ["Detail 2"],
+  detail3: ["Detail 3"],
+  detail4: ["Detail 4"],
 };
 
-//TODO Fix Draft Subnode template
-export const DRAFT_subnodeTemplate = {
-  subnodeName: "Default subnode",
-  subnodes: [
-    {
-      hazardName: "Default Hazard",
-      hazardAllocated: false,
-      causes: [{ name: "Default Cause", visible: true }],
-      consequences: [{ name: "Default Consequence", visible: true }],
-      preventativeSafeguards: [
-        { name: "Default preventative safeguard", visible: true },
-      ],
-      mitigatingSafeguards: [
-        { name: "Default mitigating safeguard", visible: true },
-      ],
-    },
-  ],
-};
-/**
- * Hazard JSON Template //TODO - UPDATE Hazard to newer format
- */
-export const hazardTemplate = {
-  hazardName: "Default Hazard",
-  hazardAllocated: false,
-  causes: ["Default Cause"],
-  consequences: ["Default Consquence"],
-  preventativeSafeguards: ["Default preventative safeguard"],
-  mitigatingSafeguards: ["Default mitigating safeguard"],
-};
+// /**
+//  *  Subnode JSON Template //TODO - UPDATE this to the newer format
+//  */
+// export const subnodeTemplate = {
+//   subnodeName: "Default subnode",
+//   hazards: [
+//     {
+//       hazardName: "Default Hazard",
+//       hazardAllocated: false,
+//       causes: [{ name: "Default Cause", visible: true }],
+//       consequences: [{ name: "Default Consequence", visible: true }],
+//       preventativeSafeguards: [
+//         { name: "Default preventative safeguard", visible: true },
+//       ],
+//       mitigatingSafeguards: [
+//         { name: "Default mitigating safeguard", visible: true },
+//       ],
+//     },
+//   ],
+// };
+
+// /**
+//  * Hazard JSON Template //TODO - UPDATE Hazard to newer format
+//  */
+// export const hazardTemplate = {
+//   hazardName: "Default Hazard",
+//   hazardAllocated: false,
+//   causes: ["Default Cause"],
+//   consequences: ["Default Consquence"],
+//   preventativeSafeguards: ["Default preventative safeguard"],
+//   mitigatingSafeguards: ["Default mitigating safeguard"],
+// };
