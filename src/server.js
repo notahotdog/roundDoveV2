@@ -13,11 +13,11 @@ app.use(bodyParser.json());
 app.set("PORT", process.env.PORT || 5000);
 
 //Mongoose Connection
-const uri = "mongodb://localhost/roundDoveV2";
-mongoose.connect(uri, {
+// const uri = "mongodb://localhost/roundDoveV2";
+mongoose.set("strictQuery", false);
+const url = "mongodb://localhost/roundDove";
+mongoose.connect(url, {
   useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
 });
 
 const connection = mongoose.connection;
