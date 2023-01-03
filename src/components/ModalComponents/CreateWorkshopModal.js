@@ -40,8 +40,8 @@ export default class CreateWorkshopModal extends Component {
    * Stores Data to Backend if fields are valid
    */
   handleOk = () => {
-    //Assert Workshop Name
     if (!isEmptyString(this.state.workshopName)) {
+      //Asserts workshop not empty
       this.setState({
         confirmLoading: true,
       });
@@ -60,8 +60,8 @@ export default class CreateWorkshopModal extends Component {
 
       console.log("Saving New Workshop to Database");
 
-      // console.log("New Workshop Payload: ", payload);
-      // axios.post("http://localhost:5000/workshop/addWorkshop", payload); //Need to change to fit nodes //TODO - ENABLE once backend configured
+      console.log("New Workshop Payload: ", payload);
+      axios.post("http://localhost:5000/workshop/addWorkshop", payload);
 
       setTimeout(() => {
         this.setState({

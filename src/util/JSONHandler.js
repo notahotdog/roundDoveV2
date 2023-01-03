@@ -53,29 +53,52 @@ export function CompareObjects(testObj) {
   return false;
 }
 
-//Ensures that repeated instances of the object are removed from the array //TODO - Replace this
+//Ensures that repeated instances of the object are removed from the array //TODO - Double check this code - seems a bit wonky
 /**
  *
  * @param {array of objects} array
  * @param {string} item to be removed
  */
-export function filterMoreThanOneInstanceHazard(array, hazard) {
+export function filterMoreThanOneInstanceItem(array, item) {
   var oneInstanceFound = false;
-  // var hazardtoNotBeRepeated = hazard;
   var filteredArray = [];
-  array.forEach((hazardIter) => {
-    if (hazardIter.hazardName !== hazard) {
-      filteredArray.push(hazardIter);
-    } else if (!oneInstanceFound && hazardIter.hazardName === hazard) {
-      filteredArray.push(hazardIter);
+  array.forEach((itemIter) => {
+    if (itemIter.hazardName !== item) {
+      filteredArray.push(itemIter);
+    } else if (!oneInstanceFound && itemIter.itemName === item) {
+      filteredArray.push(itemIter);
     }
 
-    if (hazard.hazardName === hazard) {
+    if (item.hazardName === item) {
       oneInstanceFound = true;
     }
   });
-  console.log("Filtered Hazard List:", filteredArray);
+  console.log("Filtered Item List:", filteredArray);
 }
+
+// //Ensures that repeated instances of the object are removed from the array //TODO - Replace this
+// /**
+//  *
+//  * @param {array of objects} array
+//  * @param {string} item to be removed
+//  */
+// export function filterMoreThanOneInstanceHazard(array, hazard) {
+//   var oneInstanceFound = false;
+//   // var hazardtoNotBeRepeated = hazard;
+//   var filteredArray = [];
+//   array.forEach((hazardIter) => {
+//     if (hazardIter.hazardName !== hazard) {
+//       filteredArray.push(hazardIter);
+//     } else if (!oneInstanceFound && hazardIter.hazardName === hazard) {
+//       filteredArray.push(hazardIter);
+//     }
+
+//     if (hazard.hazardName === hazard) {
+//       oneInstanceFound = true;
+//     }
+//   });
+//   console.log("Filtered Hazard List:", filteredArray);
+// }
 
 /**
  * PrintJSON to console
@@ -98,7 +121,7 @@ export function getUniqueNodeID(nodeName, subnodeName) {
 }
 
 /**
- *  Returns an Node with proper format
+ *  Returns a Node with proper format
  * @param {String} name
  * @param {Number} noSubnodes
  * @returns Node with template of n no Subnodes
@@ -122,7 +145,7 @@ export function getSubNodeTemplate(name) {
 }
 
 /**
- *  Subnode JSON Template //TODO - UPDATE this to the newer format
+ *  Subnode JSON Template
  */
 export const subnodeTemplate = {
   subnodeName: "Default subnode",
@@ -148,36 +171,3 @@ export const itemTemplate = {
   detail3: ["Detail 3"],
   detail4: ["Detail 4"],
 };
-
-// /**
-//  *  Subnode JSON Template //TODO - UPDATE this to the newer format
-//  */
-// export const subnodeTemplate = {
-//   subnodeName: "Default subnode",
-//   hazards: [
-//     {
-//       hazardName: "Default Hazard",
-//       hazardAllocated: false,
-//       causes: [{ name: "Default Cause", visible: true }],
-//       consequences: [{ name: "Default Consequence", visible: true }],
-//       preventativeSafeguards: [
-//         { name: "Default preventative safeguard", visible: true },
-//       ],
-//       mitigatingSafeguards: [
-//         { name: "Default mitigating safeguard", visible: true },
-//       ],
-//     },
-//   ],
-// };
-
-// /**
-//  * Hazard JSON Template //TODO - UPDATE Hazard to newer format
-//  */
-// export const hazardTemplate = {
-//   hazardName: "Default Hazard",
-//   hazardAllocated: false,
-//   causes: ["Default Cause"],
-//   consequences: ["Default Consquence"],
-//   preventativeSafeguards: ["Default preventative safeguard"],
-//   mitigatingSafeguards: ["Default mitigating safeguard"],
-// };
