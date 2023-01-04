@@ -76,6 +76,7 @@ export function swapWithNext(array, index) {
  * @returns updated json with visibility element
  */
 export function addVisibilityToWorkshop(workshopObjData, isHazardAllocated) {
+  //TODO - Change this
   //Iterates through the nodes/subnodes,
   var workshopObj = { ...workshopObjData };
 

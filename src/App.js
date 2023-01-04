@@ -5,6 +5,7 @@ import NavBar from "./components/NavBar";
 import HomePage from "./components/HomePage";
 import FacilitateWorkshopPage from "./components/FacilitateWorkshopPage";
 import WorkshopCreationPage from "./components/WorkshopCreationPage";
+import EditWorkshop from "./components/EditWorkshopPage";
 function App() {
   return (
     <Router>
@@ -22,6 +23,12 @@ function App() {
               path="/WorkshopCreationPage"
               element={<WorkshopCreationPage />}
               exact
+            />
+            <Route
+              path="/WorkshopCreationPage/EditWorkshop/:id"
+              exact
+              // component={EditWorkshop}
+              element={<EditWorkshop />}
             />
           </Routes>
         </Layout>

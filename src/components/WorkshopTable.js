@@ -24,7 +24,7 @@ export default class WorkshopTable extends Component {
 
   componentDidMount() {
     console.log("Workshop Table Instance");
-    this.timer = setInterval(() => this.loadWorkshopData(), 500);
+    this.timer = setInterval(() => this.loadWorkshopData(), 500); //TODO replace poll with async
   }
 
   loadWorkshopData() {
@@ -98,11 +98,12 @@ export default class WorkshopTable extends Component {
           <Space size="middle">
             <Link
               to={{
-                pathname: "/WorkshopCreationPage/EditWorkshop",
-                state: { workshop: workshop },
+                pathname: "/WorkshopCreationPage/EditWorkshop/" + workshop._id,
+                // pathname: "/WorkshopCreationPage/EditWorkshop",
+                // state: { workshop: workshop },
               }}
             >
-              Edit {workshop.workshopName}
+              Edit {workshop.workshopName} , {workshop._id}
             </Link>
             <Popconfirm
               title="Are you sure to delete this task?"
