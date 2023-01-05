@@ -2,12 +2,10 @@ import React, { Component } from "react";
 // import "../FacilitatorPage.css";
 import EditWorkshopBody from "./EditWorkshopComponents/EditWorkshopBodyComponent";
 import axios from "axios";
-import { Button, Popconfirm } from "antd";
+
 import { addVisibilityElement, deleteItemFromIndex } from "../util/Utilities";
 import EditDetailsModal from "./EditWorkshopComponents/EditDetailsModal";
-// import EditNodeNameModal from "./EditWorkshopComponents/EditNodeNameModal";
-// import EditSubnodeNameModal from "./EditWorkshopComponents/EditSubnodeNameModal";
-// import EditHazardNameModal from "./EditWorkshopComponents/EditHazardNameModal";
+import EditWorkshopHeader from "./EditWorkshopComponents/EditWorkshopHeaderComponent";
 import { useParams } from "react-router-dom";
 
 function withParams(Component) {
@@ -82,7 +80,7 @@ class EditWorkshop extends Component {
   componentDidMount() {
     let { id } = this.props.params; //workshopId
     console.log("Workshop Id: ", id);
-    this.timer = setInterval(() => this.loadData(id), 1000);
+    this.timer = setInterval(() => this.loadData(id), 10000);
   }
 
   loadData(workshopId) {
@@ -91,7 +89,7 @@ class EditWorkshop extends Component {
       var apiEndpoint =
         "http://localhost:5000/workshop/workshopDetails/" + workshopId;
 
-      console.log("workshop idxkl: ", apiEndpoint);
+      console.log("workshop id: ", apiEndpoint);
 
       axios.get(apiEndpoint).then((response) => {
         console.log("Response: ", response.data);
@@ -245,8 +243,8 @@ class EditWorkshop extends Component {
   }
 
   deleteNodeFromNodeList() {
-    const { nodeSelIndex, isHazardSelected } = this.state;
-    if (isHazardSelected) {
+    const { nodeSelIndex, isItemSelected } = this.state;
+    if (isItemSelected) {
       var data = { ...this.state.data };
       var nodes = [...this.state.data.nodes];
       var updateNodeList = deleteItemFromIndex(nodes, nodeSelIndex); //Remove data from array
@@ -328,11 +326,14 @@ class EditWorkshop extends Component {
     console.log(`Saving new ${propertyType} name: `, updatedName);
     if (propertyType === "node") {
       this.setState({ nodeSelected: updatedName });
+      console.log("TOGGLE NODE modal");
       this.toggleNodeNameModal();
     } else if (propertyType === "subnode") {
+      console.log("TOGGLE SUBNODE modal");
       this.setState({ subNodeSelected: updatedName });
       this.toggleSubnodeNameModal();
     } else if (propertyType === "item") {
+      console.log("TOGGLE ITEM MODAL");
       this.setState({ itemSelected: updatedName });
       this.toggleItemNameModal();
     } else {
@@ -373,144 +374,32 @@ class EditWorkshop extends Component {
           open={isOpenSubnodeNameModal}
           propertyType={"subnode"}
           closeModal={this.closeAndSaveName}
-          hideModal={this.toggleNodeNameModal}
+          hideModal={this.toggleSubnodeNameModal}
         />
         <EditDetailsModal
           open={isOpenItemNameModal}
           propertyType={"item"}
           closeModal={this.closeAndSaveName}
-          hideModal={this.toggleNodeNameModal}
+          hideModal={this.toggleItemNameModal}
         />
+        <EditWorkshopHeader
+          displayNodeEditModal={this.toggleNodeNameModal}
+          displaySubnodeEditModal={this.toggleSubnodeNameModal}
+          displayItemEditModal={this.toggleItemNameModal}
+          deleteNode={this.deleteNodeFromNodeList}
+          deleteSubnode={this.deleteSubNodeFromNode}
+          deleteItem={this.deleteItemFromSubNode}
+          workshopName={this.state.workshopName}
+          nodeSelected={this.state.nodeSelected}
+          subnodeSelected={this.state.subnodeSelected}
+          itemSelected={this.state.itemSelected}
+          tags={this.state.tags}
+        />
+        <div>test end</div>
       </div>
     );
     // <div>
-    // <div className="ew-header">
-
-    //       <div className="ew-header-left-col">
-    //         <div className="ew-header-title">{this.state.workshopName}</div>
-
-    //         <div className="ew-header-node-details">
-    //           <div className="ew-node-details-col1">
-    //             <div className="item-subtitle">
-    //               <div className="ew-node-title">Node Assessed:</div>
-    //               <div className="item-content">{this.state.nodeSelected}</div>
-    //             </div>
-    //             <div className="item-subtitle">
-    //               <div className="ew-node-title">Sub node Assessed:</div>
-    //               <div className="item-content">
-    //                 {this.state.subnodeSelected}
-    //               </div>
-    //             </div>
-    //             <div className="item-subtitle">
-    //               <div className="ew-node-title">Hazard Assessed:</div>
-    //               <div className="item-content">
-    //                 {this.state.hazardSelected}
-    //               </div>
-    //             </div>
-    //           </div>
-    //           <div className="ew-node-details-col2">
-    //             <div className="ew-row-button">
-    //               <div className="ew-edit-button">
-    //                 <Button
-    //                   className="item-button"
-    //                   type="link"
-    //                   style={{
-    //                     alignItem: "flex-end",
-    //                     fontSize: "17px",
-    //                     marginRight: "60px",
-    //                   }}
-    //                   onClick={this.openNodeNameModal}
-    //                 >
-    //                   Edit Node Name
-    //                 </Button>
-    //               </div>
-
-    //               <Popconfirm
-    //                 title="Are you sure you want to delete node?"
-    //                 onConfirm={this.deleteNodeFromNodeList}
-    //               >
-    //                 <Button
-    //                   className="item-button"
-    //                   type="link"
-    //                   style={{ alignItem: "flex-end", fontSize: "17px" }}
-    //                 >
-    //                   Delete Node
-    //                 </Button>
-    //               </Popconfirm>
-    //             </div>
-    //             <div className="ew-row-button">
-    //               <div className="ew-edit-button">
-    //                 <Button
-    //                   className="item-button"
-    //                   type="link"
-    //                   style={{
-    //                     alignItem: "flex-end",
-    //                     fontSize: "17px",
-    //                   }}
-    //                   onClick={this.openSubnodeNameModal}
-    //                 >
-    //                   Edit Subnode Name
-    //                 </Button>
-    //               </div>
-    //               <Popconfirm
-    //                 title="Are you sure you want to delete subnode?"
-    //                 onConfirm={this.deleteSubNodeFromNode}
-    //               >
-    //                 <Button
-    //                   className="item-button"
-    //                   type="link"
-    //                   style={{ alignItem: "flex-end", fontSize: "17px" }}
-    //                 >
-    //                   Delete SubNode
-    //                 </Button>
-    //               </Popconfirm>
-    //             </div>
-    //             <div className="ew-row-button">
-    //               <div className="ew-edit-button">
-    //                 <Button
-    //                   className="item-button"
-    //                   type="link"
-    //                   style={{
-    //                     alignItem: "flex-end",
-    //                     fontSize: "17px",
-    //                     marginRight: "30px",
-    //                   }}
-    //                   onClick={this.openHazardNameModal}
-    //                 >
-    //                   Edit Hazard Name
-    //                 </Button>
-    //               </div>
-
-    //               <Popconfirm
-    //                 title="Are you sure you want to delete hazard?"
-    //                 onConfirm={this.deleteHazardFromSubNode}
-    //               >
-    //                 <Button
-    //                   className="item-button"
-    //                   type="link"
-    //                   style={{ alignItem: "flex-end", fontSize: "17px" }}
-    //                 >
-    //                   Delete Hazard
-    //                 </Button>
-    //               </Popconfirm>
-    //             </div>
-    //           </div>
-    //         </div>
-    //       </div>
-
-    //       <div className="ew-header-right-col">
-    //         <div className="ew-tags">
-    //           <div className="ew-tags-title">Tags </div>
-    //           {this.state.tags.map((tag, index) => {
-    //             return (
-    //               <div className="ew-node-details-tags" key={index}>
-    //                 [ {tag} ]
-    //               </div>
-    //             );
-    //           })}
-    //         </div>
-    //       </div>
-    //     </div>
+    //
 
     //     {/* <EditWorkshopBody
     //       data={this.state.data}
