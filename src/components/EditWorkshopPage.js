@@ -4,9 +4,10 @@ import EditWorkshopBody from "./EditWorkshopComponents/EditWorkshopBodyComponent
 import axios from "axios";
 import { Button, Popconfirm } from "antd";
 import { addVisibilityElement, deleteItemFromIndex } from "../util/Utilities";
-import EditNodeNameModal from "./EditWorkshopComponents/EditNodeNameModal";
-import EditSubnodeNameModal from "./EditWorkshopComponents/EditSubnodeNameModal";
-import EditHazardNameModal from "./EditWorkshopComponents/EditHazardNameModal";
+import EditDetailsModal from "./EditWorkshopComponents/EditDetailsModal";
+// import EditNodeNameModal from "./EditWorkshopComponents/EditNodeNameModal";
+// import EditSubnodeNameModal from "./EditWorkshopComponents/EditSubnodeNameModal";
+// import EditHazardNameModal from "./EditWorkshopComponents/EditHazardNameModal";
 import { useParams } from "react-router-dom";
 
 function withParams(Component) {
@@ -21,16 +22,14 @@ class EditWorkshop extends Component {
     this.state = {
       nodeSelected: "", //Change this to an object
       subnodeSelected: "", //Change this to an object with index
-      hazardSelected: "",
       itemSelected: "", //itemSelected
       nodeSelIndex: 0,
       subnodeSelIndex: 0,
-      hazardSelndex: 0,
       itemSelIndex: 0, //item selected Index
+
       isOpenNodeNameModal: false,
       isOpenSubnodeNameModal: false,
-      isOpenHazardNameModal: false,
-      isHazardSelected: false,
+      isOpenItemNameModal: false,
       isItemSelected: false,
       tags: [""],
       data: {
@@ -44,13 +43,13 @@ class EditWorkshop extends Component {
             subnodes: [
               {
                 subnodeName: "",
-                hazards: [
+                items: [
                   {
-                    hazardName: "",
-                    causes: [""],
-                    consequences: [""],
-                    preventativeSafeguards: [""],
-                    mitigatingSafeguards: [""],
+                    itemName: "",
+                    detail1: [""],
+                    detail2: [""],
+                    detail3: [""],
+                    detail4: [""],
                   },
                 ],
               },
@@ -69,7 +68,8 @@ class EditWorkshop extends Component {
     this.deleteSubNodeFromNode = this.deleteSubNodeFromNode.bind(this);
     this.deleteHazardFromSubNode = this.deleteHazardFromSubNode.bind(this);
 
-    this.updateNodeHazard = this.updateNodeHazard.bind(this);
+    this.updateNodeHazard = this.updateNodeHazard.bind(this); //TODO - REMOVE
+    this.updateNodeItem = this.updateNodeItem.bind(this);
     this.openNodeNameModal = this.openNodeNameModal.bind(this);
     this.closeNodeNameModal = this.closeNodeNameModal.bind(this);
     this.closeSaveNodeNameModal = this.closeSaveNodeNameModal.bind(this);
@@ -88,7 +88,7 @@ class EditWorkshop extends Component {
   componentDidMount() {
     let { id } = this.props.params; //workshopId
     console.log("Workshop Id: ", id);
-    this.timer = setInterval(() => this.loadData(id), 500);
+    this.timer = setInterval(() => this.loadData(id), 1000);
   }
 
   loadData(workshopId) {
@@ -97,7 +97,10 @@ class EditWorkshop extends Component {
       var apiEndpoint =
         "http://localhost:5000/workshop/workshopDetails/" + workshopId;
 
+      console.log("workshop idxkl: ", apiEndpoint);
+
       axios.get(apiEndpoint).then((response) => {
+        console.log("Response: ", response.data);
         this.setState({
           data: response.data,
           workshopName: response.data.workshopName,
@@ -107,7 +110,29 @@ class EditWorkshop extends Component {
     }
   }
 
+  updateNodeItem(updatedItem) {
+    const { nodeSelIndex, subnodeSelIndex, itemSelIndex } = this.state;
+    console.log(
+      "Node Index: ",
+      nodeSelIndex,
+      " subnode Index: ",
+      subnodeSelIndex,
+      " item Index: ",
+      itemSelIndex
+    );
+
+    //Update the item with the current proposed item
+    var data = { ...this.state.data };
+    console.log("Workshop Data before update: ", data);
+    data.nodes[nodeSelIndex].subnodes[subnodeSelIndex].items[itemSelIndex] =
+      updatedItem;
+    console.log("Workshop Data after update: ", data);
+
+    this.saveDataToBackend(data);
+  }
+
   updateNodeHazard(updatedHazard) {
+    //TODO DELETE
     const { nodeSelIndex, subnodeSelIndex, hazardSelndex } = this.state;
     console.log(
       "Node Index: ",
@@ -137,16 +162,15 @@ class EditWorkshop extends Component {
     var nodeIndex = this.state.nodeSelIndex;
     var subnodeName = this.state.subnodeSelected;
     var subnodeIndex = this.state.subnodeSelIndex;
-    var hazardName = this.state.hazardSelected;
-    var hazardIndex = this.state.hazardSelndex;
+    var itemName = this.state.itemName;
+    var itemIndex = this.state.itemSelIndex;
 
     var data = { ...this.state.data };
 
     data.nodes[nodeIndex].nodeName = nodeName;
     data.nodes[nodeIndex].subnodes[subnodeIndex].subnodeName = subnodeName;
-    data.nodes[nodeIndex].subnodes[subnodeIndex].hazards[
-      hazardIndex
-    ].hazardName = hazardName;
+    data.nodes[nodeIndex].subnodes[subnodeIndex].items[itemIndex].itemName =
+      itemName;
 
     console.log("Update Workshop Data Name: ", data);
     this.saveDataToBackend(data);
@@ -164,6 +188,25 @@ class EditWorkshop extends Component {
     console.log("Update Data to BACKEND: ", payload);
     axios.post("http://localhost:5000/workshop/updateWorkshop", payload); //Send Payload to Backend
   }
+
+  // setNodeSelected(
+  //   nameNode,
+  //   nameSubnode,
+  //   nameHazard,
+  //   nodeIndex,
+  //   subnodeIndex,
+  //   itemIndex
+  // ) {
+  //   this.setState({
+  //     nodeSelected: nameNode,
+  //     subnodeSelected: nameSubnode,
+  //     itemSelected: nameItem,
+  //     nodeSelIndex: nodeIndex,
+  //     subnodeSelIndex: subnodeIndex,
+  //     itemSelIndex: itemIndex,
+  //     isItemSelected: true,
+  //   });
+  // }
 
   setNodeSelected(
     nameNode,
@@ -220,11 +263,11 @@ class EditWorkshop extends Component {
   /**
    *  Adds subnode to node selected takes in the index of the node to be appended
    * @param {Num} nodeIndex  of the node to be appended to
-   * @param {Obj} subNode  Object of subnode to be added
+   * @param {Obj} subnode  Object of subnode to be added
    */
-  addSubNodeToNode(nodeIndex, subNode) {
+  addSubNodeToNode(nodeIndex, subnode) {
     var nodeUpdate = { ...this.state.data.nodes[nodeIndex] };
-    nodeUpdate.subnodes.push(subNode); //increment the subnodes to the particular node
+    nodeUpdate.subnodes.push(subnode); //increment the subnodes to the particular node
     var data = { ...this.state.data };
     data.nodes[nodeIndex] = nodeUpdate;
     this.saveDataToBackend(data);
@@ -338,81 +381,69 @@ class EditWorkshop extends Component {
     }
   }
 
-  openNodeNameModal() {
-    this.setState({ isOpenNodeNameModal: true });
+  //Generalised for all propertyTypes
+  closeAndSaveName(propertyType, updatedName) {
+    console.log(`Saving new ${propertyType} name: `, updatedName);
+    if (propertyType === "node") {
+      this.setState({ nodeSelected: updatedName });
+      this.toggleNodeNameModal();
+    } else if (propertyType === "subnode") {
+      this.setState({ subNodeSelected: updatedName });
+      this.toggleSubnodeNameModal();
+    } else if (propertyType === "item") {
+      this.setState({ itemSelected: updatedName });
+      this.toggleItemNameModal();
+    } else {
+      //TODO Throw some error
+      console.log("Improper propertyType when saving data");
+    }
+    this.updateName();
   }
 
-  closeSaveNodeNameModal(nodeName) {
-    console.log("SAVED RENAMED Node Modal:", nodeName);
-    this.setState({ nodeSelected: nodeName }, () => {
-      this.updateName(); //update backend data
+  toggleNodeNameModal() {
+    this.setState({ isOpenNodeNameModal: !this.state.isOpenNodeNameModal });
+  }
+
+  toggleSubnodeNameModal() {
+    this.setState({
+      isOpenSubnodeNameModal: !this.state.isOpenSubnodeNameModal,
     });
-    this.closeNodeNameModal();
   }
 
-  closeNodeNameModal() {
-    this.setState({ isOpenNodeNameModal: false });
-  }
-
-  openSubnodeNameModal() {
-    this.setState({ isOpenSubnodeNameModal: true });
-  }
-
-  closeSaveSubnodeNameModal(subnodeName) {
-    console.log("SAVED RENAMED SubnodeNode Modal:", subnodeName);
-    this.setState({ subnodeSelected: subnodeName }, () => {
-      this.updateName();
-    });
-    this.closeSubnodeNameModal();
-  }
-
-  closeSubnodeNameModal() {
-    this.setState({ isOpenSubnodeNameModal: false });
-  }
-
-  openHazardNameModal() {
-    this.setState({ isOpenHazardNameModal: true });
-  }
-
-  closeSaveHazardNameModal(hazardName) {
-    console.log("SAVED RENAMED Hazard Modal:", hazardName);
-    this.setState({ hazardSelected: hazardName }, () => {
-      this.updateName();
-    });
-
-    //Needs to be saved to backend
-    this.closeHazardNameModal();
-  }
-
-  closeHazardNameModal() {
-    this.setState({ isOpenHazardNameModal: false });
+  toggleItemNameModal() {
+    this.setState({ isOpenItemNameModal: !this.state.isOpenItemNameModal });
   }
 
   render() {
-    const {
-      isOpenNodeNameModal,
-      isOpenSubnodeNameModal,
-      isOpenHazardNameModal,
-    } = this.state;
+    const { isOpenNodeNameModal, isOpenSubnodeNameModal, isOpenItemNameModal } =
+      this.state;
 
-    return <div>Edit Workshop</div>;
-    //   <div>
-    //     <div className="ew-header">
-    //       <EditNodeNameModal
-    //         visible={isOpenNodeNameModal}
-    //         closeModal={this.closeSaveNodeNameModal}
-    //         hideModal={this.closeNodeNameModal}
-    //       />
-    //       <EditSubnodeNameModal
-    //         visible={isOpenSubnodeNameModal}
-    //         closeModal={this.closeSaveSubnodeNameModal}
-    //         hideModal={this.closeSubnodeNameModal}
-    //       />
-    //       <EditHazardNameModal
-    //         visible={isOpenHazardNameModal}
-    //         closeModal={this.closeSaveHazardNameModal}
-    //         hideModal={this.closeHazardNameModal}
-    //       />
+    return (
+      <div>
+        <div>Edit Workshop</div>
+        <EditDetailsModal
+          open={isOpenNodeNameModal}
+          propertyType={"node"}
+          closeModal={this.closeAndSaveName}
+          hideModal={this.toggleNodeNameModal}
+        />
+        <EditDetailsModal
+          open={isOpenSubnodeNameModal}
+          propertyType={"subnode"}
+          closeModal={this.closeAndSaveName}
+          hideModal={this.toggleNodeNameModal}
+        />
+        <EditDetailsModal
+          open={isOpenItemNameModal}
+          propertyType={"item"}
+          closeModal={this.closeAndSaveName}
+          hideModal={this.toggleNodeNameModal}
+        />
+      </div>
+    );
+    // <div>
+    // <div className="ew-header">
+
     //       <div className="ew-header-left-col">
     //         <div className="ew-header-title">{this.state.workshopName}</div>
 

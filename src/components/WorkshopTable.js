@@ -99,7 +99,6 @@ export default class WorkshopTable extends Component {
             <Link
               to={{
                 pathname: "/WorkshopCreationPage/EditWorkshop/" + workshop._id,
-                // pathname: "/WorkshopCreationPage/EditWorkshop",
                 // state: { workshop: workshop },
               }}
             >
