@@ -116,6 +116,7 @@ export function addVisibilityToWorkshop(workshopObjData, isHazardAllocated) {
   return workshopObj; //updatedObj
 }
 
+//TODO - Refactore his thing erghjhh
 /**
  * Adds visiblity to an object
  * @param {json} hazard Obj

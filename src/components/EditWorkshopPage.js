@@ -22,10 +22,10 @@ class EditWorkshop extends Component {
     this.state = {
       nodeSelected: "", //Change this to an object
       subnodeSelected: "", //Change this to an object with index
-      itemSelected: "", //itemSelected
+      itemSelected: "",
       nodeSelIndex: 0,
       subnodeSelIndex: 0,
-      itemSelIndex: 0, //item selected Index
+      itemSelIndex: 0,
 
       isOpenNodeNameModal: false,
       isOpenSubnodeNameModal: false,
@@ -59,28 +59,22 @@ class EditWorkshop extends Component {
       },
     };
 
-    this.setNodeSelected = this.setNodeSelected.bind(this);
+    //TODO - REFACTOR Body component
+    this.setNodeSelected = this.setNodeSelected.bind(this); //Used for the Body component
+    this.updateNodeHazard = this.updateNodeHazard.bind(this); //TODO - REMOVE
+    this.updateNodeItem = this.updateNodeItem.bind(this);
+
     this.loadData = this.loadData.bind(this);
     this.addNodeToNodeList = this.addNodeToNodeList.bind(this);
     this.addSubNodeToNode = this.addSubNodeToNode.bind(this);
-    this.addHazardToSubNode = this.addHazardToSubNode.bind(this);
+    this.addItemToSubNode = this.addItemToSubNode.bind(this);
     this.deleteNodeFromNodeList = this.deleteNodeFromNodeList.bind(this);
     this.deleteSubNodeFromNode = this.deleteSubNodeFromNode.bind(this);
-    this.deleteHazardFromSubNode = this.deleteHazardFromSubNode.bind(this);
+    this.deleteItemFromSubNode = this.deleteItemFromSubNode.bind(this);
 
-    this.updateNodeHazard = this.updateNodeHazard.bind(this); //TODO - REMOVE
-    this.updateNodeItem = this.updateNodeItem.bind(this);
-    this.openNodeNameModal = this.openNodeNameModal.bind(this);
-    this.closeNodeNameModal = this.closeNodeNameModal.bind(this);
-    this.closeSaveNodeNameModal = this.closeSaveNodeNameModal.bind(this);
-
-    this.openSubnodeNameModal = this.openSubnodeNameModal.bind(this);
-    this.closeSaveSubnodeNameModal = this.closeSaveSubnodeNameModal.bind(this);
-    this.closeSubnodeNameModal = this.closeSubnodeNameModal.bind(this);
-
-    this.openHazardNameModal = this.openHazardNameModal.bind(this);
-    this.closeSaveHazardNameModal = this.closeSaveHazardNameModal.bind(this);
-    this.closeHazardNameModal = this.closeHazardNameModal.bind(this);
+    this.toggleNodeNameModal = this.toggleNodeNameModal.bind(this);
+    this.toggleSubnodeNameModal = this.toggleSubnodeNameModal.bind(this);
+    this.toggleItemNameModal = this.toggleItemNameModal.bind(this);
 
     this.updateName = this.updateName.bind(this);
   }
@@ -110,6 +104,7 @@ class EditWorkshop extends Component {
     }
   }
 
+  //TODO - REFACTOR FROM BODY
   updateNodeItem(updatedItem) {
     const { nodeSelIndex, subnodeSelIndex, itemSelIndex } = this.state;
     console.log(
@@ -120,7 +115,6 @@ class EditWorkshop extends Component {
       " item Index: ",
       itemSelIndex
     );
-
     //Update the item with the current proposed item
     var data = { ...this.state.data };
     console.log("Workshop Data before update: ", data);
@@ -132,7 +126,7 @@ class EditWorkshop extends Component {
   }
 
   updateNodeHazard(updatedHazard) {
-    //TODO DELETE
+    //TODO DELETE From Body
     const { nodeSelIndex, subnodeSelIndex, hazardSelndex } = this.state;
     console.log(
       "Node Index: ",
@@ -208,6 +202,7 @@ class EditWorkshop extends Component {
   //   });
   // }
 
+  //TODO - Refactor from body
   setNodeSelected(
     nameNode,
     nameSubnode,
@@ -232,12 +227,21 @@ class EditWorkshop extends Component {
    * @param {Obj} node to be added
    */
   addNodeToNodeList(node) {
+    //TODO - DOUBLE check if this code is correct
     var data = { ...this.state.data };
     var nodes = [...this.state.data.nodes];
     nodes.push(node);
     data.nodes = nodes;
-    console.log("update Data w addNode:", data);
     this.saveDataToBackend(data);
+  }
+
+  clearState() {
+    this.setState({
+      isItemSelected: false,
+      nodeSelected: "",
+      subnodeSelected: "",
+      itemSelected: "",
+    });
   }
 
   deleteNodeFromNodeList() {
@@ -246,15 +250,9 @@ class EditWorkshop extends Component {
       var data = { ...this.state.data };
       var nodes = [...this.state.data.nodes];
       var updateNodeList = deleteItemFromIndex(nodes, nodeSelIndex); //Remove data from array
-      // console.log("Deleted Update:", updateNodeList);
       data.nodes = updateNodeList;
       this.saveDataToBackend(data);
-      this.setState({
-        isHazardSelected: false,
-        nodeSelected: "",
-        subnodeSelected: "",
-        hazardSelected: "",
-      });
+      this.clearState();
     } else {
       alert("Please select a node to be deleted");
     }
@@ -274,8 +272,8 @@ class EditWorkshop extends Component {
   }
 
   deleteSubNodeFromNode() {
-    const { nodeSelIndex, subnodeSelIndex, isHazardSelected } = this.state;
-    if (isHazardSelected) {
+    const { nodeSelIndex, subnodeSelIndex, isItemSelected } = this.state;
+    if (isItemSelected) {
       var data = { ...this.state.data };
       var subNodeList = [...this.state.data.nodes[nodeSelIndex].subnodes];
       var updatedSubNodeList = deleteItemFromIndex(
@@ -283,14 +281,8 @@ class EditWorkshop extends Component {
         subnodeSelIndex
       );
       data.nodes[nodeSelIndex].subnodes = updatedSubNodeList;
-      // console.log("Deleted Subnode Update:", data);
       this.saveDataToBackend(data);
-      this.setState({
-        isHazardSelected: false,
-        nodeSelected: "",
-        subnodeSelected: "",
-        hazardSelected: "",
-      });
+      this.clearState();
     } else {
       alert("Please select a subnode to be deleted");
     }
@@ -307,7 +299,7 @@ class EditWorkshop extends Component {
       ...this.state.data.nodes[nodeIndex].subnodes[subNodeIndex],
     };
     var itemDataVisible = addVisibilityElement(itemData);
-    subNodeUpdate.hazards.push(itemDataVisible);
+    subNodeUpdate.items.push(itemDataVisible);
     var data = { ...this.state.data };
     data.nodes[nodeIndex].subnodes[subNodeIndex] = subNodeUpdate;
     this.saveDataToBackend(data);
@@ -323,64 +315,14 @@ class EditWorkshop extends Component {
       ];
 
       var updatedItemList = deleteItemFromIndex(itemList, itemSelIndex);
-      data.nodes[nodeSelIndex].subnodes[subnodeSelIndex].hazards =
+      data.nodes[nodeSelIndex].subnodes[subnodeSelIndex].items =
         updatedItemList;
       this.saveDataToBackend(data);
-      this.setState({
-        isItemSelected: false,
-        nodeSelected: "",
-        subnodeSelected: "",
-        itemSelected: "",
-      });
+      this.clearState();
     } else {
       alert("Please select a subnode to be deleted");
     }
   }
-
-  /**
-   * Adds Hazard to subnode
-   * @param {Num} nodeIndex index of Node to be appended to
-   * @param {Num} subNodeIndex index of subnode to be appended to
-   * @param {Num} hazardData Object data to be appended
-   */
-  addHazardToSubNode(nodeIndex, subNodeIndex, hazardData) {
-    var subNodeUpdate = {
-      ...this.state.data.nodes[nodeIndex].subnodes[subNodeIndex],
-    };
-    //Hazard Data should be visible
-    var hazardDataWVisiblility = addVisibilityElement(hazardData);
-    subNodeUpdate.hazards.push(hazardDataWVisiblility);
-    var data = { ...this.state.data };
-    data.nodes[nodeIndex].subnodes[subNodeIndex] = subNodeUpdate;
-    this.saveDataToBackend(data);
-  }
-
-  deleteHazardFromSubNode() {
-    const { nodeSelIndex, subnodeSelIndex, hazardSelndex, isHazardSelected } =
-      this.state;
-    if (isHazardSelected) {
-      var data = { ...this.state.data };
-      //Need tocheck if the hazard even exists
-      var hazardList = [
-        ...this.state.data.nodes[nodeSelIndex].subnodes[subnodeSelIndex]
-          .hazards,
-      ];
-
-      var updatedHazardList = deleteItemFromIndex(hazardList, hazardSelndex);
-      data.nodes[nodeSelIndex].subnodes[subnodeSelIndex].hazards =
-        updatedHazardList;
-      this.saveDataToBackend(data);
-      this.setState({
-        isHazardSelected: false,
-        nodeSelected: "",
-        subnodeSelected: "",
-        hazardSelected: "",
-      });
-    } else {
-      alert("Please select a subnode to be deleted");
-    }
-  }
-
   //Generalised for all propertyTypes
   closeAndSaveName(propertyType, updatedName) {
     console.log(`Saving new ${propertyType} name: `, updatedName);
