@@ -144,6 +144,12 @@ export function getSubNodeTemplate(name) {
   return subnodeObj;
 }
 
+export function getItemTemplate(name) {
+  var itemObj = { ...itemTemplate };
+  itemObj.itemName = name;
+  return itemObj;
+}
+
 /**
  *  Subnode JSON Template
  */
@@ -160,11 +166,11 @@ export const subnodeTemplate = {
     },
   ],
 };
-/*
+/**
  * Item JSON Template
  */
 export const itemTemplate = {
-  itemName: "Default Hazard",
+  itemName: "Default Item",
   itemAllocated: false,
   detail1: ["Detail 1"],
   detail2: ["Detail 2"],

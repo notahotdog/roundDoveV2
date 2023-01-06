@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Modal, Alert, Input, message } from "antd";
 import { isEmptyString, capitalizeFirstLetter } from "../../util/Utilities";
 
-export default class EditDetailsModal extends Component {
+export default class AddDetailsModal extends Component {
   constructor(props) {
     super(props);
 
@@ -48,7 +48,7 @@ export default class EditDetailsModal extends Component {
     const { emptyField } = this.state;
     const { open, propertyType } = this.props;
     const prompt = capitalizeFirstLetter(propertyType) + " Name:";
-    const titleHeading = "Change " + prompt;
+    const titleHeading = "Add " + prompt;
     return (
       <div>
         <Modal
