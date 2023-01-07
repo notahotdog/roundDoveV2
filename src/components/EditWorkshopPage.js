@@ -71,7 +71,7 @@ class EditWorkshop extends Component {
     };
 
     //TODO - REFACTOR Body component
-    this.updateNodeItem = this.updateNodeItem.bind(this);
+    // this.updateNodeItem = this.updateNodeItem.bind(this);
 
     //Completed
     this.setNodeSelected = this.setNodeSelected.bind(this);
@@ -102,7 +102,7 @@ class EditWorkshop extends Component {
   componentDidMount() {
     let { id } = this.props.params; //workshopId
     console.log("Workshop Id: ", id);
-    this.timer = setInterval(() => this.loadData(id), 10000);
+    this.timer = setInterval(() => this.loadData(id), 500);
   }
 
   loadData(workshopId) {
@@ -121,52 +121,27 @@ class EditWorkshop extends Component {
     }
   }
 
-  //TODO - REFACTOR FROM BODY
-  //Updates the details of the node based on nodeItem
-  updateNodeItem(updatedItem) {
-    const { nodeSelIndex, subnodeSelIndex, itemSelIndex } = this.state;
-    console.log(
-      "Node Index: ",
-      nodeSelIndex,
-      " subnode Index: ",
-      subnodeSelIndex,
-      " item Index: ",
-      itemSelIndex
-    );
-    //Update the item with the current proposed item
-    var data = { ...this.state.data };
-    console.log("Workshop Data before update: ", data);
-    data.nodes[nodeSelIndex].subnodes[subnodeSelIndex].items[itemSelIndex] =
-      updatedItem;
-    console.log("Workshop Data after update: ", data);
+  // //TODO - REFACTOR FROM BODY
+  // //Updates the details of the node based on nodeItem
+  // updateNodeItem(updatedItem) {
+  //   const { nodeSelIndex, subnodeSelIndex, itemSelIndex } = this.state;
+  //   console.log(
+  //     "Node Index: ",
+  //     nodeSelIndex,
+  //     " subnode Index: ",
+  //     subnodeSelIndex,
+  //     " item Index: ",
+  //     itemSelIndex
+  //   );
+  //   //Update the item with the current proposed item
+  //   var data = { ...this.state.data };
+  //   console.log("Workshop Data before update: ", data);
+  //   data.nodes[nodeSelIndex].subnodes[subnodeSelIndex].items[itemSelIndex] =
+  //     updatedItem;
+  //   console.log("Workshop Data after update: ", data);
 
-    this.saveDataToBackend(data);
-  }
-
-  updateNodeHazard(updatedHazard) {
-    //TODO DELETE From Body
-    const { nodeSelIndex, subnodeSelIndex, hazardSelndex } = this.state;
-    console.log(
-      "Node Index: ",
-      nodeSelIndex,
-      " subnode Index: ",
-      subnodeSelIndex,
-      " hazard Index: ",
-      hazardSelndex
-    );
-
-    //Update the hazard with the current proposed Hazard
-    var data = { ...this.state.data };
-    console.log("Workshop before update");
-    console.log("Workshop Data: ", data);
-
-    console.log("Workshop after update");
-    data.nodes[nodeSelIndex].subnodes[subnodeSelIndex].hazards[hazardSelndex] =
-      updatedHazard;
-    console.log("Workshop Data: ", data);
-
-    this.saveDataToBackend(data);
-  }
+  //   this.saveDataToBackend(data);
+  // }
 
   /**
    * Updates the names which have been modified - calls save to backend database
@@ -176,10 +151,19 @@ class EditWorkshop extends Component {
     var nodeIndex = this.state.nodeSelIndex;
     var subnodeName = this.state.subnodeSelected;
     var subnodeIndex = this.state.subnodeSelIndex;
-    var itemName = this.state.itemName;
+    var itemName = this.state.itemSelected;
     var itemIndex = this.state.itemSelIndex;
 
     var data = { ...this.state.data };
+    console.log("UPDATE NAME");
+    console.log(
+      "Node sel: ",
+      this.state.nodeSelected,
+      "\nsubnode sel:",
+      this.state.subnodeSelected,
+      "\nitem sel:",
+      this.state.itemSelected
+    );
 
     data.nodes[nodeIndex].nodeName = nodeName;
     data.nodes[nodeIndex].subnodes[subnodeIndex].subnodeName = subnodeName;
@@ -204,7 +188,7 @@ class EditWorkshop extends Component {
     };
 
     console.log("Update Data to BACKEND: ", payload);
-    axios.post("http://localhost:5000/workshop/updateWorkshop", payload); //Send Payload to Backend
+    axios.post("http://localhost:5000/workshop/updateWorkshop", payload); //Send Payload to Backend //TODO - FIX update functionality
   }
 
   /**
@@ -343,24 +327,37 @@ class EditWorkshop extends Component {
    */
   closeAndSaveName(propertyType, updatedName) {
     console.log(`Saving new ${propertyType} name: `, updatedName);
+    console.log("Before save");
+    console.log(
+      "Node sel: ",
+      this.state.nodeSelected,
+      "\nsubnode sel:",
+      this.state.subnodeSelected,
+      "\nitem sel:",
+      this.state.itemSelected
+    );
     if (propertyType === "node") {
-      this.setState({ nodeSelected: updatedName });
-      console.log("TOGGLE NODE modal");
+      this.setState({ nodeSelected: updatedName }, () => {
+        this.updateName();
+      });
       this.toggleEditNodeNameModal();
     } else if (propertyType === "subnode") {
-      console.log("TOGGLE SUBNODE modal");
-
-      this.setState({ subNodeSelected: updatedName });
+      this.setState({ subnodeSelected: updatedName }, () => {
+        this.updateName();
+      });
       this.toggleEditSubnodeNameModal();
     } else if (propertyType === "item") {
-      console.log("TOGGLE ITEM MODAL");
-      this.setState({ itemSelected: updatedName });
+      this.setState({ itemSelected: updatedName }, () => {
+        this.updateName();
+      });
+
       this.toggleEditItemNameModal();
     } else {
       //TODO Throw some error
       console.log("Improper propertyType when saving data");
     }
-    this.updateName(); //Saves to Backend
+
+    // this.updateName(); //Saves to Backend
   }
 
   /**

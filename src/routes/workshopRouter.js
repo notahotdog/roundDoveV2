@@ -46,25 +46,24 @@ router.route("/addWorkshop").post((req, res) => {
     .catch((err) => res.status(400).json("Error" + err));
 });
 
-// //POST - Update workshopData from list of Workshop //TODO - Check against edit functionality
-// router.route("/updateWorkshop").post((req, res) => {
-//   const nodes = req.body.nodes;
-//   const workshopName = req.body.workshopName;
-//   const tags = req.body.tags;
-// const workshopID = req.body.id;
+//POST - Update workshopData from list of Workshop //TODO - Check against edit functionality
+router.route("/updateWorkshop").post((req, res) => {
+  const nodes = req.body.nodes;
+  const workshopName = req.body.workshopName;
+  const tags = req.body.tags;
+  const workshopID = req.body.id;
 
-//   var workshop = {
-//     workshopName,
-//     nodes,
-//     tags,
-//   };
+  var workshop = {
+    workshopName,
+    nodes,
+    tags,
+  };
 
-//   console.log("workshop data", JSON.stringify(workshop));
-
-//   Workshop.findByIdAndUpdate(workshopID, workshop)
-//     .then(() => res.json("Workshop Updated"))
-//     .catch((err) => res.status(404).json("Error: " + err));
-// });
+  // console.log("workshop data", JSON.stringify(workshop));
+  Workshop.findByIdAndUpdate(workshopID, workshop)
+    .then(() => res.json("Workshop Updated"))
+    .catch((err) => res.status(404).json("Error: " + err));
+});
 
 ///POST - Export workshop data as excelFile
 router.route("/exportToExcel").post((req, res) => {

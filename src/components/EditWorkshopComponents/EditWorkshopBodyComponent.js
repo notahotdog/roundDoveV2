@@ -22,9 +22,15 @@ export default class EditWorkshopBody extends Component {
       subnodeIndexToAddItem: 0,
       isItemAllocated: false,
     };
+
+    this.toggleAddNodeModalVisible = this.toggleAddNodeModalVisible.bind(this);
+    this.toggleAddSubNodeModalVisible =
+      this.toggleAddSubNodeModalVisible.bind(this);
+    this.toggleAddItemModalVisible = this.toggleAddItemModalVisible.bind(this);
   }
 
   toggleAddNodeModalVisible() {
+    console.log("toggle add node modal");
     this.props.showAddNodeModal();
   }
 

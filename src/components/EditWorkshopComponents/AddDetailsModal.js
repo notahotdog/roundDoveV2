@@ -19,9 +19,9 @@ export default class AddDetailsModal extends Component {
   }
 
   handleOk() {
-    var { propertyType, value } = this.state;
+    var { value } = this.state;
     if (!isEmptyString(value)) {
-      this.props.closeModal(propertyType, value); //passes to external
+      this.props.closeModal(this.props.propertyType, value); //passes to external
     } else {
       this.setState({ emptyField: true });
       this.showEmptyFieldAlert();
@@ -48,8 +48,8 @@ export default class AddDetailsModal extends Component {
   render() {
     const { emptyField } = this.state;
     const { open, propertyType } = this.props;
-    const prompt = capitalizeFirstLetter(propertyType) + " Name:";
-    const titleHeading = "Add " + prompt;
+    const prompt = capitalizeFirstLetter(propertyType) + " name";
+    const titleHeading = "Add " + propertyType + " name:";
     return (
       <div>
         <Modal
@@ -62,7 +62,6 @@ export default class AddDetailsModal extends Component {
             <Alert description="Please enter a name " type="error" closable />
           ) : null}
 
-          <h3> {propertyType} Name: </h3>
           <Input placeholder={prompt} onChange={this.updateValue} allowClear />
         </Modal>
       </div>
