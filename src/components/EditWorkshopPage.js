@@ -70,9 +70,6 @@ class EditWorkshop extends Component {
       },
     };
 
-    //TODO - REFACTOR Body component
-    // this.updateNodeItem = this.updateNodeItem.bind(this);
-
     //Completed
     this.setNodeSelected = this.setNodeSelected.bind(this);
 
@@ -229,11 +226,10 @@ class EditWorkshop extends Component {
   }
 
   /**
-   * Adds Node to node list
+   * Adds Node to node list - Need to include the template
    * @param {Obj} node to be added
    */
   addNodeToNodeList(node) {
-    //TODO - DOUBLE check if this code is correct
     var data = { ...this.state.data };
     var nodes = [...this.state.data.nodes];
     nodes.push(node);
@@ -326,16 +322,16 @@ class EditWorkshop extends Component {
    * @param {string} updatedName - name to be changed
    */
   closeAndSaveName(propertyType, updatedName) {
-    console.log(`Saving new ${propertyType} name: `, updatedName);
-    console.log("Before save");
-    console.log(
-      "Node sel: ",
-      this.state.nodeSelected,
-      "\nsubnode sel:",
-      this.state.subnodeSelected,
-      "\nitem sel:",
-      this.state.itemSelected
-    );
+    // console.log(`Saving new ${propertyType} name: `, updatedName);
+    // console.log("Before save");
+    // console.log(
+    //   "Node sel: ",
+    //   this.state.nodeSelected,
+    //   "\nsubnode sel:",
+    //   this.state.subnodeSelected,
+    //   "\nitem sel:",
+    //   this.state.itemSelected
+    // );
     if (propertyType === "node") {
       this.setState({ nodeSelected: updatedName }, () => {
         this.updateName();
@@ -356,8 +352,6 @@ class EditWorkshop extends Component {
       //TODO Throw some error
       console.log("Improper propertyType when saving data");
     }
-
-    // this.updateName(); //Saves to Backend
   }
 
   /**
@@ -369,7 +363,7 @@ class EditWorkshop extends Component {
     console.log(`Saving new ${propertyType} name: `, name);
     const { nodeSelIndex, subnodeSelIndex } = this.state;
     if (propertyType === "node") {
-      const nodeObj = getNodeTemplate(name);
+      const nodeObj = getNodeTemplate(name, 1); //Need to indicate the number of subnodes to generate
       this.addNodeToNodeList(nodeObj);
       this.toggleAddNodeModal();
     } else if (propertyType === "subnode") {
@@ -426,7 +420,6 @@ class EditWorkshop extends Component {
 
     return (
       <div className="edit-workshop">
-        {/* {console.log("STATE:", this.state)} */}
         <h1>Edit Workshop</h1>
         <EditDetailsModal
           open={isOpenEditNodeNameModal}
@@ -483,18 +476,8 @@ class EditWorkshop extends Component {
           showAddSubnodeModal={this.toggleAddSubnodeModal}
           showAddItemModal={this.toggleAddItemModal}
         />
-        {/* <div>test end</div> */}
       </div>
     );
-    // <div>
-    //
-
-    //     {/* <EditWorkshopBody
-    //       updateNodeHazard={this.updateNodeHazard}
-    //       updateNodeItem={this.updateNodeItem}
-    //     /> */}
-    //   </div>
-    // );
   }
 }
 
