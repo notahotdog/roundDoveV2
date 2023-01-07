@@ -23,30 +23,31 @@ export default class EditWorkshopHeaderComponent extends Component {
     } = this.props;
     return (
       <div>
-        <div>Edit Workshop Header</div>
-        <div className="ew-header">
-          <div className="ew-header-left-col">
-            <div className="ew-header-title">{workshopName}</div>
-            <div className="ew-header-node-details">
-              <div className="ew-node-details-col1">
-                <div className="item-subtitle">
-                  <div className="ew-node-title">Node Assessed:</div>
-                  <div className="item-content">{nodeSelected}</div>
+        <div className="edit-workshop-header">
+          <div className="ewh-left-col">
+            <div className="ewh-title">Workshop Name:{workshopName}</div>
+            <div className="ewh-details">
+              <div className="ewh-details-col1">
+                <div className="ewh-details-col1-outline">
+                  <div className="ewh-details-col1-title">Node Assessed:</div>
+                  <div className="ewh-details-col1-desc">{nodeSelected}</div>
                 </div>
-                <div className="item-subtitle">
-                  <div className="ew-node-title">Sub node Assessed:</div>
-                  <div className="item-content">{subnodeSelected}</div>
+                <div className="ewh-details-col1-outline">
+                  <div className="ewh-details-col1-title">
+                    Sub node Assessed:
+                  </div>
+                  <div className="ewh-details-col1-desc">{subnodeSelected}</div>
                 </div>
-                <div className="item-subtitle">
-                  <div className="ew-node-title">Item Assessed:</div>
-                  <div className="item-content">{itemSelected}</div>
+                <div className="ewh-details-col1-outline">
+                  <div className="ewh-details-col1-title">Item Assessed:</div>
+                  <div className="ewh-details-col1-desc">{itemSelected}</div>
                 </div>
               </div>
-              <div className="ew-node-details-col2">
-                <div className="ew-row-button">
-                  <div className="ew-edit-button">
+              <div className="ewh-details-col2">
+                <div className="ewh-col2-outline">
+                  <div className="ewh-col2-edit">
                     <Button
-                      className="item-button"
+                      className="ewh-col2-editbutton"
                       type="link"
                       style={{
                         alignItem: "flex-end",
@@ -64,7 +65,7 @@ export default class EditWorkshopHeaderComponent extends Component {
                     onConfirm={deleteNode}
                   >
                     <Button
-                      className="item-button"
+                      className="ewh-col2-editbutton"
                       type="link"
                       style={{ alignItem: "flex-end", fontSize: "17px" }}
                     >
@@ -72,10 +73,10 @@ export default class EditWorkshopHeaderComponent extends Component {
                     </Button>
                   </Popconfirm>
                 </div>
-                <div className="ew-row-button">
-                  <div className="ew-edit-button">
+                <div className="ewh-col2-outline">
+                  <div className="ewh-col2-edit">
                     <Button
-                      className="item-button"
+                      className="ewh-col2-editbutton"
                       type="link"
                       style={{
                         alignItem: "flex-end",
@@ -91,7 +92,7 @@ export default class EditWorkshopHeaderComponent extends Component {
                     onConfirm={deleteSubnode}
                   >
                     <Button
-                      className="item-button"
+                      className="ewh-col2-editbutton"
                       type="link"
                       style={{ alignItem: "flex-end", fontSize: "17px" }}
                     >
@@ -99,10 +100,10 @@ export default class EditWorkshopHeaderComponent extends Component {
                     </Button>
                   </Popconfirm>
                 </div>
-                <div className="ew-row-button">
-                  <div className="ew-edit-button">
+                <div className="ewh-col2-outline">
+                  <div className="ewh-col2-edit">
                     <Button
-                      className="item-button"
+                      className="ewh-col2-editbutton"
                       type="link"
                       style={{
                         alignItem: "flex-end",
@@ -120,7 +121,7 @@ export default class EditWorkshopHeaderComponent extends Component {
                     onConfirm={deleteItem}
                   >
                     <Button
-                      className="item-button"
+                      className="ewh-col2-editbutton"
                       type="link"
                       style={{ alignItem: "flex-end", fontSize: "17px" }}
                     >
@@ -132,9 +133,9 @@ export default class EditWorkshopHeaderComponent extends Component {
             </div>
           </div>
 
-          <div className="ew-header-right-col">
-            <div className="ew-tags">
-              <div className="ew-tags-title">Tags </div>
+          <div className="ewh-right-col">
+            <div className="ewh-tags">
+              <div className="ewh-tags-title">Tags </div>
               {tags.map((tag, index) => {
                 return (
                   <div className="ew-node-details-tags" key={index}>

@@ -1,6 +1,7 @@
 //TODO - Add Display Item Component
 import React, { Component } from "react";
 import { Menu } from "antd";
+import "../../EditWorkshopPage.css";
 const { SubMenu } = Menu;
 
 export default class EditWorkshopBody extends Component {
@@ -65,79 +66,103 @@ export default class EditWorkshopBody extends Component {
   render() {
     const { data } = this.props;
     return (
-      <>
-        <div> Edit Workshop Body</div>
-        <Menu
-          onClick={this.handleClick}
-          style={{ width: "100%" }}
-          defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
-          mode="inline"
-          theme="dark"
-        >
-          <Menu.Item onClick={this.toggleAddNodeModalVisible}>
-            Add Node
-          </Menu.Item>
-          {data.nodes.map((node, nodeIndex) => {
+      <div className="edit-workshop-body">
+        <div className="ewb-left-col">
+          {/* {data.nodes.map((node, nodeIndex) => {
             return (
-              <SubMenu key={node.nodeName} title={node.nodeName}>
-                <Menu.Item
-                  onClick={
-                    () => this.toggleAddSubNodeModalVisible(nodeIndex) //TODO figure out how to include the node and nodeIndex
-                  }
-                >
-                  Add SubNode
-                </Menu.Item>
+              <div>
+                <div>Node Name: {node.nodeName}</div>;
                 {node.subnodes.map((subnode, subnodeIndex) => {
                   return (
-                    <SubMenu
-                      key={node.nodeName
-                        .concat(subnode.subnodeName)
-                        .concat(subnodeIndex)} //TODO - REFACTOR THIS KEY
-                      title={subnode.subnodeName}
-                    >
-                      <Menu.Item
-                        onClick={() =>
-                          this.toggleAddItemModalVisible(
-                            nodeIndex,
-                            subnodeIndex
-                          )
-                        }
-                      >
-                        Add Item
-                      </Menu.Item>
+                    <div>
+                      <div> Subnode Name: {subnode.subnodeName}</div>
                       {subnode.items.map((item, itemIndex) => {
                         return (
-                          <Menu.Item
-                            key={node.nodeName
-                              .concat(subnode.subnodeName)
-                              .concat(subnodeIndex)
-                              .concat(item.itemName)
-                              .concat(itemIndex)}
-                            onClick={() => {
-                              this.updateClickedItem(
-                                node,
-                                subnode,
-                                item,
-                                nodeIndex,
-                                subnodeIndex,
-                                itemIndex
-                              );
-                              this.setItemSelectedTrue();
-                            }}
-                          >
-                            {item.itemName}
-                          </Menu.Item>
+                          <div>
+                            <div> itemName: {item.itemName}</div>
+                          </div>
                         );
                       })}
-                    </SubMenu>
+                    </div>
                   );
                 })}
-              </SubMenu>
+              </div>
             );
-          })}
-        </Menu>
-      </>
+          })} */}
+          <Menu
+            onClick={this.handleClick}
+            style={{ width: "100%" }}
+            defaultSelectedKeys={["1"]}
+            defaultOpenKeys={["sub1"]}
+            mode="inline"
+            theme="dark"
+          >
+            <Menu.Item onClick={this.toggleAddNodeModalVisible}>
+              Add Node
+            </Menu.Item>
+            {data.nodes.map((node, nodeIndex) => {
+              return (
+                <SubMenu key={node.nodeName} title={node.nodeName}>
+                  <Menu.Item
+                    onClick={
+                      () => this.toggleAddSubNodeModalVisible(nodeIndex) //TODO figure out how to include the node and nodeIndex
+                    }
+                  >
+                    Add SubNode
+                  </Menu.Item>
+                  {node.subnodes.map((subnode, subnodeIndex) => {
+                    return (
+                      <SubMenu
+                        key={node.nodeName
+                          .concat(subnode.subnodeName)
+                          .concat(subnodeIndex)} //TODO - REFACTOR THIS KEY
+                        title={subnode.subnodeName}
+                      >
+                        <Menu.Item
+                          onClick={() =>
+                            this.toggleAddItemModalVisible(
+                              nodeIndex,
+                              subnodeIndex
+                            )
+                          }
+                        >
+                          Add Item
+                        </Menu.Item>
+                        {subnode.items.map((item, itemIndex) => {
+                          return (
+                            <Menu.Item
+                              key={node.nodeName
+                                .concat(subnode.subnodeName)
+                                .concat(subnodeIndex)
+                                .concat(item.itemName)
+                                .concat(itemIndex)}
+                              onClick={() => {
+                                this.updateClickedItem(
+                                  node,
+                                  subnode,
+                                  item,
+                                  nodeIndex,
+                                  subnodeIndex,
+                                  itemIndex
+                                );
+                                this.setItemSelectedTrue();
+                              }}
+                            >
+                              {item.itemName}
+                            </Menu.Item>
+                          );
+                        })}
+                      </SubMenu>
+                    );
+                  })}
+                </SubMenu>
+              );
+            })}
+          </Menu>
+        </div>
+        {/* {console.log("Edit workshop body", this.props.data)} */}
+        <div className="ewb-right-col">something</div>
+      </div>
     );
   }
 }

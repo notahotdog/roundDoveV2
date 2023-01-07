@@ -1,5 +1,6 @@
 //TODO - REFACTOR FRONTEND
 import React, { Component } from "react";
+import "../EditWorkshopPage.css";
 // import "../FacilitatorPage.css";
 import EditWorkshopBody from "./EditWorkshopComponents/EditWorkshopBodyComponent";
 import axios from "axios";
@@ -109,10 +110,8 @@ class EditWorkshop extends Component {
     if (workshopId !== "undefined") {
       var apiEndpoint = "http://localhost:5000/workshop/" + workshopId;
 
-      console.log("workshop id: ", apiEndpoint);
-
+      // console.log("workshop id: ", apiEndpoint);
       axios.get(apiEndpoint).then((response) => {
-        console.log("Response: ", response.data);
         this.setState({
           data: response.data,
           workshopName: response.data.workshopName,
@@ -429,8 +428,9 @@ class EditWorkshop extends Component {
     } = this.state;
 
     return (
-      <div>
-        <div>Edit Workshop</div>
+      <div className="edit-workshop">
+        {/* {console.log("STATE:", this.state)} */}
+        <h1>Edit Workshop</h1>
         <EditDetailsModal
           open={isOpenEditNodeNameModal}
           propertyType={"node"}
@@ -468,13 +468,12 @@ class EditWorkshop extends Component {
           hideModal={this.toggleAddItemModal}
         />
         <EditWorkshopHeader
-          displayNodeEditModal={this.toggleNodeNameModal}
-          displaySubnodeEditModal={this.toggleSubnodeNameModal}
-          displayItemEditModal={this.toggleItemNameModal}
+          displayNodeEditModal={this.toggleEditNodeNameModal}
+          displaySubnodeEditModal={this.toggleEditSubnodeNameModal}
+          displayItemEditModal={this.toggleEditItemNameModal}
           deleteNode={this.deleteNodeFromNodeList}
           deleteSubnode={this.deleteSubNodeFromNode}
           deleteItem={this.deleteItemFromSubNode}
-          workshopName={this.state.workshopName}
           nodeSelected={this.state.nodeSelected}
           subnodeSelected={this.state.subnodeSelected}
           itemSelected={this.state.itemSelected}
@@ -487,7 +486,7 @@ class EditWorkshop extends Component {
           showAddSubnodeModal={this.toggleAddSubnodeModal}
           showAddItemModal={this.toggleAddItemModal}
         />
-        <div>test end</div>
+        {/* <div>test end</div> */}
       </div>
     );
     // <div>

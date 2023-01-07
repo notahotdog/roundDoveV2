@@ -1,0 +1,144 @@
+.edit-workshop{
+    height: 100%;
+}
+.edit-workshop-header{
+    background-color: purple;
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 600;
+    font-size: 28px;
+    display: flex;
+    flex-direction: row;
+    height: 200px;
+    border: 3px solid black;
+}
+
+.ewh-left-col{
+    background-color: aqua;
+    width: 80%;
+    
+}
+.ewh-right-col{
+    background-color: aquamarine;
+    width: 20%;
+}
+.ewh-title{
+    display: flex;
+  /* margin-bottom: 0.5em; */
+  margin-left: 10px;
+  color: rgba(0, 0, 0, 0.85);
+  background-color: purple;
+  font-weight: 600;
+  text-decoration: underline;
+  font-size: 30px;
+  height: 40%;
+}
+
+.ewh-details{
+    display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 60%;
+  background-color: greenyellow;
+  margin-left: 10px;
+}
+
+.ewh-details-col1{
+background-color: green;
+font-size: 0.8em;
+display: flex;
+justify-content: flex-start;
+flex-direction: column;
+width: 65%;
+height: 100%;
+}
+
+.ewh-details-col2{
+     background-color: pink;
+  font-size: 0.8em;
+  display: flex;
+  flex-direction: column;
+  width: 35%;
+  height: 100%;
+}
+.ewh-details-col1-outline{
+  display: flex;
+  justify-content: flex-start;
+  align-self: flex-start;
+  height: 40px;
+  border: 1px solid red;
+  width: 100%;
+}
+.ewh-details-col1-title{
+    width: 30%;
+    background-color: blue;
+    display: flex;
+    flex-direction: row;
+    font-weight: lighter;
+}
+.ewh-details-col1-desc{
+    width: 70%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    background-color: whitesmoke;
+}
+
+.ewh-col2-outline{
+    display: flex;
+    align-content: flex-end;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.ewh-col2-edit{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    background-color: green;
+    width: 100%;
+    margin-right: 2px;
+}
+.ewh-col2-editbutton{
+    display: flex;
+    align-self: flex-end;
+    justify-content: center;
+    margin-left: auto;
+    height: 40px;
+}
+
+
+.ewh-tags {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-end;
+    justify-content: center;
+    height: 100%;
+    background-color: red;
+  }
+  
+  .ewh-tags-title {
+    font-weight: lighter;
+  }
+  .ewh-node-details-tags {
+    font-size: 15px;
+  }
+
+
+
+.edit-workshop-body{
+    background-color: maroon;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.ewb-left-col{
+    background-color: red;
+    width: 20%;
+}
+.ewb-right-col{
+    background-color: pink;
+    width: 80%;
+}
