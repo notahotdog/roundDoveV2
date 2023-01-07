@@ -14,7 +14,7 @@ app.set("PORT", process.env.PORT || 5000);
 
 //Mongoose Connection
 mongoose.set("strictQuery", false);
-const url = "mongodb://localhost/roundDove";
+const url = "mongodb://localhost/firstmongo";
 mongoose.connect(url, {
   useNewUrlParser: true,
 });
@@ -22,5 +22,12 @@ mongoose.connect(url, {
 const connection = mongoose.connection;
 
 connection.once("open", () => {
-  console.log("MongoDB database connection established succesfully");
+  console.log("MongoDB database connection established successfully");
 });
+
+const workshopRouter = require("./routes/workshopRouter");
+app.use("/workshop", workshopRouter);
+
+app.listen(app.get("PORT"), () =>
+  console.log("Listening at " + app.get("PORT"))
+);

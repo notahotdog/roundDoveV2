@@ -1,6 +1,6 @@
+//TODO - Refactor frontend
 import React, { Component } from "react";
 import { Button, Popconfirm } from "antd";
-//TODO - Refactor frontend
 export default class EditWorkshopHeaderComponent extends Component {
   constructor(props) {
     super(props);

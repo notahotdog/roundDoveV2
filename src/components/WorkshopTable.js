@@ -24,7 +24,7 @@ export default class WorkshopTable extends Component {
 
   componentDidMount() {
     console.log("Workshop Table Instance");
-    this.timer = setInterval(() => this.loadWorkshopData(), 500); //TODO replace poll with async
+    this.timer = setInterval(() => this.loadWorkshopData(), 10000); //TODO replace poll with async
   }
 
   loadWorkshopData() {

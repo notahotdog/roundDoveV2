@@ -1,6 +1,6 @@
+//TODO - Add Display Item Component
 import React, { Component } from "react";
 import { Menu } from "antd";
-import DisplayItemComponent from "./DisplayItemComponent";
 const { SubMenu } = Menu;
 
 export default class EditWorkshopBody extends Component {

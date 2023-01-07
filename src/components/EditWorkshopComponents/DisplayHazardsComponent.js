@@ -1,3 +1,4 @@
+//TODO EVALUATE THIS COMPONENT
 import React, { Component } from "react";
 import axios from "axios";
 import { Button, Select, Checkbox, message } from "antd";
@@ -305,8 +306,7 @@ export default class DisplayHazardsComponent extends Component {
             </div>
           ) : null}
           {!isHazardSelected ? (
-            isHazardAllocated ? null : // <LoadDataPromptPage />
-            null
+            isHazardAllocated ? null : null // <LoadDataPromptPage />
           ) : (
             <div className="dh-body">
               <div className="dh-col">

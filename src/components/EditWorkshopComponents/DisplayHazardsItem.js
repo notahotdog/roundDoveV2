@@ -1,3 +1,4 @@
+//TODO EVALUATE THIS COMPONENT
 import React, { Component } from "react";
 import { Checkbox } from "antd";
 

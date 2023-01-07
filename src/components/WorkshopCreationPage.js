@@ -65,7 +65,7 @@ export default class WorkshopCreationPage extends Component {
                 </Link>
               </Button>
 
-              <Button
+              {/* <Button
                 type="primary"
                 style={{ marginLeft: "20px", color: "white" }}
               >
@@ -78,7 +78,7 @@ export default class WorkshopCreationPage extends Component {
                   <EditOutlined />
                   Edit Hazards
                 </Link>
-              </Button>
+              </Button> */}
             </div>
           </div>
 

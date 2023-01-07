@@ -1,3 +1,4 @@
+//TODO - REFACTOR FRONTEND
 import React, { Component } from "react";
 // import "../FacilitatorPage.css";
 import EditWorkshopBody from "./EditWorkshopComponents/EditWorkshopBodyComponent";
@@ -106,8 +107,7 @@ class EditWorkshop extends Component {
   loadData(workshopId) {
     //Need to solve async issue - if i dont put this, sometimes an undefined workshopID is passed, hence the param, might be wrong since it doesnt point to an appropriate endpoint
     if (workshopId !== "undefined") {
-      var apiEndpoint =
-        "http://localhost:5000/workshop/workshopDetails/" + workshopId;
+      var apiEndpoint = "http://localhost:5000/workshop/" + workshopId;
 
       console.log("workshop id: ", apiEndpoint);
 
