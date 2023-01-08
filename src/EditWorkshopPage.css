@@ -1,24 +1,35 @@
 .edit-workshop{
     height: 100%;
 }
+
+.edit-workshop-header-font{
+  display: grid;
+  align-self: center;
+  color: rgba(0, 0, 0, 0.85);
+  /* background-color: purple; */
+  font-weight: 600;
+  font-size: 30px;
+}
+
+
 .edit-workshop-header{
-    background-color: purple;
+    /* background-color: purple; */
     color: rgba(0, 0, 0, 0.85);
     font-weight: 600;
     font-size: 28px;
     display: flex;
     flex-direction: row;
     height: 200px;
-    border: 3px solid black;
+    border-bottom: 10px solid black;
 }
 
 .ewh-left-col{
-    background-color: aqua;
+    /* background-color: aqua; */
     width: 80%;
     
 }
 .ewh-right-col{
-    background-color: aquamarine;
+    /* background-color: aquamarine; */
     width: 20%;
 }
 .ewh-title{
@@ -26,11 +37,11 @@
   /* margin-bottom: 0.5em; */
   margin-left: 10px;
   color: rgba(0, 0, 0, 0.85);
-  background-color: purple;
+  /* background-color: purple; */
   font-weight: 600;
   text-decoration: underline;
   font-size: 30px;
-  height: 40%;
+  height: 30%;
 }
 
 .ewh-details{
@@ -39,12 +50,12 @@
   align-items: flex-start;
   justify-content: flex-start;
   height: 60%;
-  background-color: greenyellow;
+  /* background-color: greenyellow; */
   margin-left: 10px;
 }
 
 .ewh-details-col1{
-background-color: green;
+/* background-color: green; */
 font-size: 0.8em;
 display: flex;
 justify-content: flex-start;
@@ -54,7 +65,7 @@ height: 100%;
 }
 
 .ewh-details-col2{
-     background-color: pink;
+     /* background-color: pink; */
   font-size: 0.8em;
   display: flex;
   flex-direction: column;
@@ -66,12 +77,12 @@ height: 100%;
   justify-content: flex-start;
   align-self: flex-start;
   height: 40px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   width: 100%;
 }
 .ewh-details-col1-title{
     width: 30%;
-    background-color: blue;
+    /* background-color: blue; */
     display: flex;
     flex-direction: row;
     font-weight: lighter;
@@ -82,7 +93,7 @@ height: 100%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    background-color: whitesmoke;
+    /* background-color: whitesmoke; */
 }
 
 .ewh-col2-outline{
@@ -96,7 +107,7 @@ height: 100%;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
-    background-color: green;
+    /* background-color: green; */
     width: 100%;
     margin-right: 2px;
 }
@@ -115,7 +126,7 @@ height: 100%;
     align-content: flex-end;
     justify-content: center;
     height: 100%;
-    background-color: red;
+    /* background-color: red; */
   }
   
   .ewh-tags-title {
@@ -128,7 +139,7 @@ height: 100%;
 
 
 .edit-workshop-body{
-    background-color: maroon;
+    background-color: rgb(243, 243, 244);
     display: flex;
     flex-direction: row;
     height: 100%;
@@ -139,6 +150,6 @@ height: 100%;
     width: 20%;
 }
 .ewb-right-col{
-    background-color: pink;
+    /* background-color: pink; */
     width: 80%;
 }

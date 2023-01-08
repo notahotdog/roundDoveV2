@@ -287,10 +287,18 @@ class EditWorkshop extends Component {
    * @param {Num} itemData Object data to be appended
    */
   addItemToSubNode(nodeIndex, subNodeIndex, itemData) {
+    console.log(
+      "nodeIx:",
+      nodeIndex,
+      "\nsubnodeIx: ",
+      subNodeIndex,
+      "\nitemData: ",
+      itemData
+    );
     var subNodeUpdate = {
       ...this.state.data.nodes[nodeIndex].subnodes[subNodeIndex],
     };
-    var itemDataVisible = addVisibilityElement(itemData);
+    var itemDataVisible = addVisibilityElement(itemData); //TODO - REFACTOR THIS add visibility function
     subNodeUpdate.items.push(itemDataVisible);
     var data = { ...this.state.data };
     data.nodes[nodeIndex].subnodes[subNodeIndex] = subNodeUpdate;
@@ -420,7 +428,7 @@ class EditWorkshop extends Component {
 
     return (
       <div className="edit-workshop">
-        <h1>Edit Workshop</h1>
+        <div className="edit-workshop-header-font">Edit Workshop</div>
         <EditDetailsModal
           open={isOpenEditNodeNameModal}
           propertyType={"node"}

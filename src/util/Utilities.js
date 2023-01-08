@@ -67,37 +67,29 @@ export function swapWithNext(array, index) {
 /**
  * Modifies uploaded Workshop schema to suit local use, by adding visibility element
  * @param {JSON} workshopObj
+ * @param {boolean} isItemAllocated sets whether the default item should be true/false
  * @returns updated json with visibility element
  */
-/**
- * Modifies uploaded Workshop schema to suit local use, by adding visibility element
- * @param {JSON} workshopObj
- * @param {boolean} isHazardAllocated sets whether the default hazard should be true/false
- * @returns updated json with visibility element
- */
-export function addVisibilityToWorkshop(workshopObjData, isHazardAllocated) {
+export function addVisibilityToWorkshop(workshopObjData, isItemAllocated) {
   //TODO - Change this
-  //Iterates through the nodes/subnodes,
   var workshopObj = { ...workshopObjData };
-
   var updatedNodeList = [];
 
   workshopObj.nodes.forEach((node, nodeIndex) => {
-    //as it iterates through the nodes
     var nodeName = node.nodeName;
     var updatedSubnodeList = [];
 
     node.subnodes.forEach((subnode, subnodeIndex) => {
       var subnodeName = subnode.subnodeName;
-      var updatedHazardList = []; //adds to the hazard List of a subnode
+      var updatedItemList = []; //adds to the item list of a subnode
 
-      subnode.hazards.forEach((hazard, hazardIndex) => {
-        updatedHazardList.push(addVisibilityElement(hazard, isHazardAllocated));
+      subnode.items.forEach((item, itemIndex) => {
+        updatedItemList.push(addVisibilityElement(item, isItemAllocated));
       });
 
       const updatedSubnode = {
         subnodeName: subnodeName,
-        hazards: updatedHazardList,
+        items: updatedItemList,
       };
       updatedSubnodeList.push(updatedSubnode);
     });
@@ -111,54 +103,55 @@ export function addVisibilityToWorkshop(workshopObjData, isHazardAllocated) {
   });
 
   workshopObj.nodes = updatedNodeList;
-
   console.log("Data after being transformed: ", workshopObj);
-  return workshopObj; //updatedObj
+  return workshopObj;
 }
 
-//TODO - Refactore his thing erghjhh
+//TODO - Refactor this thing erghjhh - Whos calling this
 /**
  * Adds visiblity to an object
  * @param {json} hazard Obj
- * @returns hazard obj with all elements with visibility parameter
+ * @returns item obj with all elements with visibility parameter
  */
-export function addVisibilityElement(obj, isHazardAllocated) {
+export function addVisibilityElement(obj, isItemAllocated) {
   var jsonData = { ...obj };
-  var causes = [...jsonData.causes];
-  var consequences = [...jsonData.consequences];
-  var preventativeSafeguards = [...jsonData.preventativeSafeguards];
-  var mitigatingSafeguards = [...jsonData.mitigatingSafeguards];
-  jsonData["hazardAllocated"] = isHazardAllocated; // adds Visibility to an element requires boolean input
 
-  var updatedCausesList = [];
-  causes.forEach((cause) => {
-    var tempObj = { name: cause, visible: false };
-    updatedCausesList.push(tempObj);
+  var detail1 = [...jsonData.detail1];
+  var detail2 = [...jsonData.detail2];
+  var detail3 = [...jsonData.detail3];
+  var detail4 = [...jsonData.detail4];
+
+  jsonData["itemAllocated"] = isItemAllocated;
+
+  var updatedDetail1List = [];
+  detail1.forEach((detail) => {
+    var tempObj = { name: detail, visible: false };
+    updatedDetail1List.push(tempObj);
   });
-  jsonData.causes = updatedCausesList;
+  jsonData.detail1 = updatedDetail1List;
 
-  var updatedConsequenceList = [];
-  consequences.forEach((consequence) => {
-    var tobj = { name: consequence, visible: false };
-    updatedConsequenceList.push(tobj);
+  var updatedDetail2List = [];
+  detail2.forEach((detail) => {
+    var tempObj = { name: detail, visible: false };
+    updatedDetail2List.push(tempObj);
   });
-  jsonData.consequences = updatedConsequenceList;
+  jsonData.detail2 = updatedDetail2List;
 
-  var updatedPSList = [];
-  preventativeSafeguards.forEach((pSafe) => {
-    var tempObj = { name: pSafe, visible: false };
-    updatedPSList.push(tempObj);
+  var updatedDetail3List = [];
+  detail3.forEach((detail) => {
+    var tempObj = { name: detail, visible: false };
+    updatedDetail3List.push(tempObj);
   });
-  jsonData.preventativeSafeguards = updatedPSList;
+  jsonData.detail3 = updatedDetail3List;
 
-  var updatedMSList = [];
-  mitigatingSafeguards.forEach((mSafe) => {
-    var tempObj = { name: mSafe, visible: false };
-    updatedMSList.push(tempObj);
+  var updatedDetail4List = [];
+  detail4.forEach((detail) => {
+    var tempObj = { name: detail, visible: false };
+    updatedDetail4List.push(tempObj);
   });
 
-  jsonData.mitigatingSafeguards = updatedMSList;
-  console.log("json data ammended: ", jsonData);
+  jsonData.mitigatingSafeguards = updatedDetail4List;
+  console.log("Updated visible element: ", jsonData);
   return jsonData;
 }
 

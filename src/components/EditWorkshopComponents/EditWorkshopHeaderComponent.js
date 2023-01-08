@@ -34,7 +34,7 @@ export default class EditWorkshopHeaderComponent extends Component {
                 </div>
                 <div className="ewh-details-col1-outline">
                   <div className="ewh-details-col1-title">
-                    Sub node Assessed:
+                    Subnode Assessed:
                   </div>
                   <div className="ewh-details-col1-desc">{subnodeSelected}</div>
                 </div>

@@ -104,7 +104,7 @@ export default class EditWorkshopBody extends Component {
             theme="dark"
           >
             <Menu.Item onClick={this.toggleAddNodeModalVisible}>
-              Add Node
+              ++ Add Node
             </Menu.Item>
             {data.nodes.map((node, nodeIndex) => {
               return (
@@ -114,7 +114,7 @@ export default class EditWorkshopBody extends Component {
                       () => this.toggleAddSubNodeModalVisible(nodeIndex) //TODO figure out how to include the node and nodeIndex
                     }
                   >
-                    Add SubNode
+                    ++ Add SubNode
                   </Menu.Item>
                   {node.subnodes.map((subnode, subnodeIndex) => {
                     return (
@@ -132,7 +132,7 @@ export default class EditWorkshopBody extends Component {
                             )
                           }
                         >
-                          Add Item
+                          ++ Add Item
                         </Menu.Item>
                         {subnode.items.map((item, itemIndex) => {
                           return (
