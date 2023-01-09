@@ -110,9 +110,7 @@ export default class EditWorkshopBody extends Component {
               return (
                 <SubMenu key={node.nodeName} title={node.nodeName}>
                   <Menu.Item
-                    onClick={
-                      () => this.toggleAddSubNodeModalVisible(nodeIndex) //TODO figure out how to include the node and nodeIndex
-                    }
+                    onClick={() => this.toggleAddSubNodeModalVisible(nodeIndex)}
                   >
                     ++ Add SubNode
                   </Menu.Item>

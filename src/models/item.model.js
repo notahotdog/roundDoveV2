@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+//
 //Used for different item types - for e.g fire, water hazard etc //TODO - Check whether important
 const itemSchema = new Schema({
   itemName: {

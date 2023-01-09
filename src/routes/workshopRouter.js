@@ -1,7 +1,76 @@
 const router = require("express").Router();
 let Workshop = require("../models/workshop.model");
+let Suggestion = require("../models/item.model");
 
 var exportFile = require("../util/export2Excel.js");
+
+//Suggestions - SOURCE CODE //TODO - Complete all the different functionality
+
+/**
+ * GET - Retrieve Suggestions data from endpoint
+ */
+router.route("/suggestions").get((req, res) => {
+  Suggestion.find()
+    .then((users) => res.json(users))
+    .catch((err) => res.status(400).json("Error" + err));
+});
+
+/**
+ * POST - Add suggestions
+ */
+router.route("/addSuggestions").post((req, res) => {
+  const itemName = req.body.itemName;
+  const detail1 = req.body.detail1;
+  const detail2 = req.body.detail2;
+  const detail3 = req.body.detail3;
+  const detail4 = req.body.detail4;
+
+  const newSuggestion = new Suggestion({
+    itemName,
+    detail1,
+    detail2,
+    detail3,
+    detail4,
+  });
+
+  console.log("Router Saving Suggestion");
+
+  newSuggestion
+    .save()
+    .then(() => res.json("Suggestion Added"))
+    .catch((err) => res.status(400).json("Error" + err));
+});
+
+//Delete Suggestion
+router.route("/deleteSuggestion").delete((req, res) => {
+  const id = req.body.id;
+  console.log("id:", id);
+  Suggestion.findByIdAndDelete(id)
+    .then(() => res.json("Suggestion Deleted"))
+    .catch((err) => res.status(404).json("Error" + err));
+});
+
+//POST - Update Suggestion
+router.route("/updateSuggestion").post((req, res) => {
+  const id = req.body.id; //Id to update the suggestion
+  const itemName = req.body.itemName;
+  const detail1 = req.body.detail1;
+  const detail2 = req.body.detail2;
+  const detail3 = req.body.detail3;
+  const detail4 = req.body.detail4;
+
+  const updatedSuggestion = new Suggestion({
+    itemName,
+    detail1,
+    detail2,
+    detail3,
+    detail4,
+  });
+
+  Suggestion.findByIdAndUpdate(id, updatedSuggestion)
+    .then(() => res.json("Suggestion Updated"))
+    .catch((err) => res.status(404).json("Error: " + err));
+});
 
 //GET - All Workshop data
 router.route("/").get((req, res) => {

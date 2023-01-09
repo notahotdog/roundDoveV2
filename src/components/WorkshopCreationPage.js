@@ -44,7 +44,6 @@ export default class WorkshopCreationPage extends Component {
               <Button
                 className="wcp-header-button-item"
                 type="primary"
-                // onClick={this.showModal}
                 onClick={this.toggleModal}
               >
                 <PlusOutlined />
@@ -65,20 +64,20 @@ export default class WorkshopCreationPage extends Component {
                 </Link>
               </Button>
 
-              {/* <Button
+              <Button
                 type="primary"
                 style={{ marginLeft: "20px", color: "white" }}
               >
                 <Link
                   style={{ color: "white" }}
                   to={{
-                    pathname: "/WorkshopCreationPage/EditHazardsPage",
+                    pathname: "/WorkshopCreationPage/EditSuggestionsPage",
                   }}
                 >
                   <EditOutlined />
-                  Edit Hazards
+                  Edit Suggestions
                 </Link>
-              </Button> */}
+              </Button>
             </div>
           </div>
 

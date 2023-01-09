@@ -6,6 +6,7 @@ import HomePage from "./components/HomePage";
 import FacilitateWorkshopPage from "./components/FacilitateWorkshopPage";
 import WorkshopCreationPage from "./components/WorkshopCreationPage";
 import EditWorkshop from "./components/EditWorkshopPage";
+import EditSuggestionPage from "./components/EditSuggestionsPage";
 function App() {
   return (
     <Router>
@@ -27,8 +28,12 @@ function App() {
             <Route
               path="/WorkshopCreationPage/EditWorkshop/:id"
               exact
-              // component={EditWorkshop}
               element={<EditWorkshop />}
+            />
+            <Route
+              path="/WorkshopCreationPage/EditSuggestionsPage"
+              exact
+              element={<EditSuggestionPage />}
             />
           </Routes>
         </Layout>
