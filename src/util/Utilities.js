@@ -150,7 +150,7 @@ export function addVisibilityElement(obj, isItemAllocated) {
     updatedDetail4List.push(tempObj);
   });
 
-  jsonData.mitigatingSafeguards = updatedDetail4List;
+  jsonData.detail4 = updatedDetail4List;
   console.log("Updated visible element: ", jsonData);
   return jsonData;
 }

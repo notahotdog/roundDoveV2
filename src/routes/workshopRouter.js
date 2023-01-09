@@ -46,7 +46,7 @@ router.route("/addWorkshop").post((req, res) => {
     .catch((err) => res.status(400).json("Error" + err));
 });
 
-//POST - Update workshopData from list of Workshop //TODO - Check against edit functionality
+//POST - Update workshopData from list of Workshop
 router.route("/updateWorkshop").post((req, res) => {
   console.log("Update Workshop triggered");
   const nodes = req.body.nodes || [];
@@ -54,29 +54,14 @@ router.route("/updateWorkshop").post((req, res) => {
   const tags = req.body.tags;
   const workshopID = req.body.id;
 
-  console.log(
-    "WorkshopName: ",
-    workshopName,
-    "\nWorkshopID: ",
-    workshopID,
-    "\ndata:",
-    nodes,
-    "/n subnodes"
-  );
-  // nodes.forEach((subnode, sIx) => {
-  //   console.log("Subnode: ", subnode.subnodeName);
-  //   subnode.forEach((item, ix) => {
-  //     console.log("item name:", item.itemName);
-  //   });
-  // });
-
   var workshop = {
     workshopName,
     nodes,
     tags,
   };
 
-  // // console.log("workshop data", JSON.stringify(workshop));
+  // console.log("workshop data", JSON.stringify(workshop));
+
   Workshop.findByIdAndUpdate(workshopID, workshop)
     .then(() => res.json("Workshop Updated"))
     .catch((err) => res.status(404).json("Error: " + err));

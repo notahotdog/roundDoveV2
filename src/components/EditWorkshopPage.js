@@ -118,28 +118,6 @@ class EditWorkshop extends Component {
     }
   }
 
-  // //TODO - REFACTOR FROM BODY
-  // //Updates the details of the node based on nodeItem
-  // updateNodeItem(updatedItem) {
-  //   const { nodeSelIndex, subnodeSelIndex, itemSelIndex } = this.state;
-  //   console.log(
-  //     "Node Index: ",
-  //     nodeSelIndex,
-  //     " subnode Index: ",
-  //     subnodeSelIndex,
-  //     " item Index: ",
-  //     itemSelIndex
-  //   );
-  //   //Update the item with the current proposed item
-  //   var data = { ...this.state.data };
-  //   console.log("Workshop Data before update: ", data);
-  //   data.nodes[nodeSelIndex].subnodes[subnodeSelIndex].items[itemSelIndex] =
-  //     updatedItem;
-  //   console.log("Workshop Data after update: ", data);
-
-  //   this.saveDataToBackend(data);
-  // }
-
   /**
    * Updates the names which have been modified - calls save to backend database
    */
@@ -184,8 +162,8 @@ class EditWorkshop extends Component {
       nodes: data.nodes,
     };
 
-    console.log("Update Data to BACKEND: ", payload);
-    axios.post("http://localhost:5000/workshop/updateWorkshop", payload); //Send Payload to Backend //TODO - FIX update functionality
+    // console.log("Update Data to BACKEND: ", payload);
+    axios.post("http://localhost:5000/workshop/updateWorkshop", payload);
   }
 
   /**
