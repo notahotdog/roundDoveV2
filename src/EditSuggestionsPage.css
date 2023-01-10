@@ -8,9 +8,71 @@
      width: 20%;
     height: 100%;
   }
-  .es-right-col {
+.es-right-col {
     background-color: blue;
     width: 80%;
     height: 100%;
-  }
+}
+.es-main-header{
+  height: 5%;
+  background-color: aqua;
+}
+
+.editable-suggestion-table{
+  background-color: white;
+  height: 95%;
+}
+
+.est-sel-header{
+  background-color: red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 8%;
+}
+.est-header-row-1{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items:stretch;
+  background-color: maroon;
+  height: 50%;
+}
+.est-header-row-2{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items:stretch;
+  background-color: purple;
+  height: 50%;
+}
+
+.est-button-font{
   
+}
+.est-suggestion-table{
+  height: 92%;
+  display: flex;
+  flex-direction: row;
+  /* background-color: aquamarine; */
+} 
+
+.est-col{
+  background-color: rgb(255, 255, 255);
+  height: 100%;
+  width: 25%;
+  /* border: 2px; */
+  border-left: 1px solid rgb(173, 168, 168);
+  border-right: 1px solid rgb(173, 168, 168);
+  border-color: rgb(0, 0, 0);
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-around; */
+}
+
+.est-col-add-field{
+  display: flex;
+  flex-direction: row;
+  margin-left: 3px;
+  margin-right: 2px;
+}

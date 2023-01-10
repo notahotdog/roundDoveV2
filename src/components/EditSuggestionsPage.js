@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Menu } from "antd";
-// import EditableHazardComponent from "./TableComponents/EditableHazardComponent";
+import EditableSuggestionTable from "./EditSuggestionsComponent/EditableSuggestionTableComponent";
 import { itemTemplate } from "../util/JSONHandler";
 import AddDetailsModal from "./EditWorkshopComponents/AddDetailsModal";
 import LoadDataPromptPage from "./DisplayComponents/LoadDataPromptPage";
@@ -145,13 +145,10 @@ export default class EditSuggestionPage extends Component {
           </div>
 
           <div className="es-right-col">
-            <div className="ew-main-header"> Edit Item Suggestion Page</div>
+            <div className="es-main-header"> Edit Item Suggestion Page</div>
             {isItemSelected ? (
-              <div>Editable Item component</div>
+              <EditableSuggestionTable itemSelected={this.state.itemSelected} />
             ) : (
-              //   <EditableHazardComponent
-              //     hazardSelected={this.state.hazardSelected}
-              //   />
               <LoadDataPromptPage />
             )}
           </div>

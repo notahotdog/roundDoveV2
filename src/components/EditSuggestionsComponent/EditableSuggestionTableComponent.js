@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 // import EditableHazardItem from "./EditableHazardItem";
+import "../../EditSuggestionsPage.css";
 import EditableSuggestionItem from "./EditableSuggestionItem";
 import { Button, Input, message, Popconfirm } from "antd";
 import axios from "axios";
 import { DeleteOutlined, SaveOutlined } from "@ant-design/icons";
 import { RiAddLine } from "react-icons/ri";
 
-export default class EditableHazardComponent extends Component {
+export default class EditableSuggestionTableComponent extends Component {
   _isMounted = false;
   constructor(props) {
     super(props);
@@ -34,6 +35,7 @@ export default class EditableHazardComponent extends Component {
     this.addDetail3 = this.addDetail3.bind(this);
     this.addDetail4 = this.addDetail4.bind(this);
 
+    this.deleteItemFromBackend = this.deleteItemFromBackend.bind(this);
     this.deleteField = this.deleteField.bind(this);
   }
 
@@ -60,7 +62,7 @@ export default class EditableHazardComponent extends Component {
    * Deletes Hazard from Backend //TODO - EXPORT All backend calls from another file
    */
   deleteItemFromBackend() {
-    axios.delete("http://localhost:5000/workshop/deleteItem", {
+    axios.delete("http://localhost:5000/workshop/deleteSuggestion", {
       data: { id: this.state.itemSelected.id },
     });
     console.log("Suggestion Deleted");
@@ -204,42 +206,133 @@ export default class EditableHazardComponent extends Component {
 
   render() {
     return (
-      <div>
-        <div className="ew-hazard-sel-title">
-          <div className="ew-title-font">Suggestion Selected: </div>
-          <div className="ew-hazard-sel-font">
-            {this.props.itemSelected.itemName}
+      <div className="editable-suggestion-table">
+        <div className="est-sel-header">
+          <div className="est-header-row-1">
+            <div className="est-title-font">Suggestion Selected: </div>
+            <div className="est-item-font">
+              {this.props.itemSelected.itemName}
+            </div>
           </div>
-          <div className="ew-hazard-button">
-            <Button
-              style={{
-                marginLeft: "20px",
-                backgroundColor: "#a0d911",
-                color: "white",
-              }}
-              onClick={this.saveSuggestionUpdateToBackend}
-              icon={<SaveOutlined />}
-            >
-              Save to Backend
-            </Button>
-            <Popconfirm
-              title="Are you sure you want to delete this Suggestion?"
-              onConfirm={this.deleteItemFromBackend}
-            >
+          <div className="est-header-row-2">
+            <div className="est-button-font">
               <Button
                 style={{
                   marginLeft: "20px",
-                  backgroundColor: "#ff4d4f",
+                  backgroundColor: "#a0d911",
                   color: "white",
                 }}
-                icon={<DeleteOutlined />}
+                onClick={this.saveSuggestionUpdateToBackend}
+                icon={<SaveOutlined />}
               >
-                Delete Item
+                Save to Backend
               </Button>
-            </Popconfirm>
+              <Popconfirm
+                title="Are you sure you want to delete this Suggestion?"
+                onConfirm={this.deleteItemFromBackend}
+              >
+                <Button
+                  style={{
+                    marginLeft: "20px",
+                    backgroundColor: "#ff4d4f",
+                    color: "white",
+                  }}
+                  icon={<DeleteOutlined />}
+                >
+                  Delete Item
+                </Button>
+              </Popconfirm>
+            </div>
           </div>
         </div>
-        <div className="ew-hazard-content">
+        <div className="est-suggestion-table">
+          <div className="est-col">
+            <h1> Detail 1</h1>
+            <div className="est-col-add-field">
+              <Input
+                placeholder=" + Add Detail1"
+                onChange={this.updateAddDetail1Value}
+                allowClear
+              />
+              <Button onClick={this.addDetail1}>
+                <RiAddLine
+                  style={{
+                    marginTop: "3px",
+                  }}
+                />
+                Add
+              </Button>
+            </div>
+            {this.state.itemSelected.detail1.map((item, index) => {
+              return (
+                <div>Some item</div>
+                // <EditableHazardItem
+                //   key={item.concat(index)}
+                //   data={item}
+                //   index={index}
+                //   updateData={this.updateData}
+                //   itemType="detail1"
+                //   deleteField={this.deleteField}
+                // />
+              );
+            })}
+          </div>
+          <div className="est-col">
+            <h1> Detail 2</h1>
+            <div className="est-col-add-field">
+              <Input
+                placeholder=" + Add Detail2"
+                onChange={this.updateAddDetail2Value}
+                allowClear
+              />
+              <Button onClick={this.addDetail2}>
+                <RiAddLine
+                  style={{
+                    marginTop: "3px",
+                  }}
+                />
+                Add
+              </Button>
+            </div>
+          </div>
+          <div className="est-col">
+            <h1> Detail 3</h1>
+            <div className="est-col-add-field">
+              <Input
+                placeholder=" + Add Detail3"
+                onChange={this.updateAddDetail3Value}
+                allowClear
+              />
+              <Button onClick={this.addDetail3}>
+                <RiAddLine
+                  style={{
+                    marginTop: "3px",
+                  }}
+                />
+                Add
+              </Button>
+            </div>
+          </div>
+          <div className="est-col">
+            <h1> Detail 4</h1>
+            <div className="est-col-add-field">
+              <Input
+                placeholder=" + Add Detail4"
+                onChange={this.updateAddDetail4Value}
+                allowClear
+              />
+              <Button onClick={this.addDetail4}>
+                <RiAddLine
+                  style={{
+                    marginTop: "3px",
+                  }}
+                />
+                Add
+              </Button>
+            </div>
+          </div>
+        </div>
+        {/* <div className="ew-hazard-content">
           <div className="ew-hazard-col">
             <h1>detail1 </h1>
 
@@ -258,18 +351,7 @@ export default class EditableHazardComponent extends Component {
                 Add
               </Button>
             </div>
-            {this.state.itemSelected.detail1.map((item, index) => {
-              return (
-                <EditableHazardItem
-                  key={item.concat(index)}
-                  data={item}
-                  index={index}
-                  updateData={this.updateData}
-                  itemType="detail1"
-                  deleteField={this.deleteField}
-                />
-              );
-            })}
+           
           </div>
           <div className="ew-hazard-col">
             <h1>Consequences</h1>
@@ -370,7 +452,7 @@ export default class EditableHazardComponent extends Component {
               }
             )}
           </div>
-        </div>
+        </div>  */}
       </div>
     );
   }
