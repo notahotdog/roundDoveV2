@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Menu } from "antd";
 // import EditableHazardComponent from "./TableComponents/EditableHazardComponent";
+import { itemTemplate } from "../util/JSONHandler";
 import AddDetailsModal from "./EditWorkshopComponents/AddDetailsModal";
 import LoadDataPromptPage from "./DisplayComponents/LoadDataPromptPage";
 import "../EditSuggestionsPage.css";
@@ -27,7 +28,9 @@ export default class EditSuggestionPage extends Component {
     };
 
     this.toggleAddItemModal = this.toggleAddItemModal.bind(this);
-    this.toggleItemSelected = this.toggleItemSelected.bind(this);
+    this.toggleAndSaveAddItemModal = this.toggleAndSaveAddItemModal.bind(this);
+    this.toggleItemSelectedTrue = this.toggleItemSelectedTrue.bind(this);
+    this.toggleItemSelectedFalse = this.toggleItemSelectedFalse.bind(this);
     this.updateItemSelected = this.updateItemSelected.bind(this);
     this.loadData = this.loadData.bind(this);
   }
@@ -62,16 +65,25 @@ export default class EditSuggestionPage extends Component {
     });
   }
 
-  toggleItemSelected() {
-    this.setState({ isItemSelected: !this.state.isItemSelected });
+  toggleItemSelectedTrue() {
+    this.setState({ isItemSelected: true });
+  }
+  toggleItemSelectedFalse() {
+    this.setState({ isItemSelected: false });
   }
 
   toggleAddItemModal() {
     this.setState({ isOpenAddItemModal: !this.state.isOpenAddItemModal });
   }
 
-  toggleAndSaveAddItemModal() {
-    //save to backend or something //TODO - Configure api-endpoint within the router
+  //get The template and add the Name to the template
+  toggleAndSaveAddItemModal(propertyType, name) {
+    const obj = itemTemplate;
+    obj.itemName = name;
+    console.log("Suggestion Obj to be saved :", obj);
+    //TODO - CALL Axios post router
+    axios.post("http://localhost:5000/workshop/addSuggestions", obj);
+
     this.toggleAddItemModal();
   }
 
@@ -122,7 +134,7 @@ export default class EditSuggestionPage extends Component {
                     key={item._id}
                     onClick={() => {
                       this.updateItemSelected(item);
-                      this.toggleItemSelected();
+                      this.toggleItemSelectedTrue();
                     }}
                   >
                     {item.itemName}
