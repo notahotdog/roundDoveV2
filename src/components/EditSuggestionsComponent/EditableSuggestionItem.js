@@ -68,9 +68,9 @@ export default class EditableSuggestionItem extends Component {
   render() {
     if (!this.state.editable) {
       return (
-        <div className="ehi-box">
+        <div className="editable-suggestion-item">
           {this.saveToParent()}
-          <div className="ehi-box-default" onDoubleClick={this.toggleEditable}>
+          <div className="esi-box-default" onDoubleClick={this.toggleEditable}>
             <div style={{ marginLeft: "5px" }}>{this.state.dataAssessed}</div>
           </div>
           <AiOutlineEdit />
@@ -84,7 +84,7 @@ export default class EditableSuggestionItem extends Component {
       );
     } else {
       return (
-        <div className="ehi-box">
+        <div className="editable-suggestion-item">
           <Input
             defaultValue={this.state.dataAssessed}
             onDoubleClick={this.toggleEditable}
@@ -95,7 +95,7 @@ export default class EditableSuggestionItem extends Component {
           />
           <FiSave />
           <Popconfirm
-            title="Are you sure you want to delete the field"
+            title="Are you sure you want to delete this field"
             onConfirm={this.deleteCurrentField}
           >
             <AiOutlineDelete />

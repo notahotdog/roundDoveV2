@@ -80,30 +80,26 @@ export default class EditableSuggestionTableComponent extends Component {
     message.success("Saved Item Data to Backend");
 
     axios.post(
-      "http://localhost:5000/workshop/updateItem",
+      "http://localhost:5000/workshop/updateSuggestion",
       this.state.itemSelected
     );
   }
 
-  //Function to pass data from child to parent component //TODO - Figure out what this does
+  //TODO -Figure out what this does
   updateData(data, index, itemType) {
-    if (itemType === "cause") {
-      const causesArr = this.state.hazardSelected.causes; //Should copy not pass by ref
-      causesArr[index] = data;
-    } else if (itemType === "consequence") {
-      const consequencesArr = this.state.hazardSelected.consequences; //Should copy not pass by ref
-      consequencesArr[index] = data;
-    } else if (itemType === "preventativeSafeguard") {
-      const preventativeSafeguardArr =
-        this.state.hazardSelected.preventativeSafeguards;
-      preventativeSafeguardArr[index] = data;
-    } else if (itemType === "mitigatingSafeguard") {
-      const mitigatingSafeguardArr =
-        this.state.hazardSelected.mitigatingSafeguards;
-      mitigatingSafeguardArr[index] = data;
+    if (itemType === "detail1") {
+      const detail1Arr = this.state.itemSelected.detail1; //Should copy not pass by ref
+      detail1Arr[index] = data;
+    } else if (itemType === "detail2") {
+      const detail2Arr = this.state.itemSelected.detail2;
+      detail2Arr[index] = data;
+    } else if (itemType === "detail3") {
+      const detail3Arr = this.state.itemSelected.detail3;
+      detail3Arr[index] = data;
+    } else if (itemType === "detail4") {
+      const detail4Arr = this.state.itemSelected.detail4;
+      detail4Arr[index] = data;
     }
-
-    //Improper method to change state variables
   }
 
   /**
@@ -145,7 +141,7 @@ export default class EditableSuggestionTableComponent extends Component {
     var detail3 = [...this.state.itemSelected.detail3];
     detail3.push(this.state.addDetail3);
     var itemSelectedUpdate = { ...this.state.itemSelected };
-    itemSelectedUpdate.detail1 = detail3;
+    itemSelectedUpdate.detail3 = detail3;
     this.setState({ itemSelected: itemSelectedUpdate });
   }
 
@@ -159,7 +155,7 @@ export default class EditableSuggestionTableComponent extends Component {
    */
   addDetail4() {
     var detail4 = [...this.state.itemSelected.detail4];
-    detail4.push(this.state.detail4);
+    detail4.push(this.state.addDetail4);
     var itemSelectedUpdate = { ...this.state.itemSelected };
     itemSelectedUpdate.detail4 = detail4;
     this.setState({ itemSelected: itemSelectedUpdate });
@@ -265,15 +261,16 @@ export default class EditableSuggestionTableComponent extends Component {
             </div>
             {this.state.itemSelected.detail1.map((item, index) => {
               return (
-                <div>Some item</div>
-                // <EditableHazardItem
-                //   key={item.concat(index)}
-                //   data={item}
-                //   index={index}
-                //   updateData={this.updateData}
-                //   itemType="detail1"
-                //   deleteField={this.deleteField}
-                // />
+                <div>
+                  <EditableSuggestionItem
+                    key={item.concat(index)}
+                    data={item}
+                    index={index}
+                    updateData={this.updateData}
+                    itemType="detail1"
+                    deleteField={this.deleteField}
+                  />
+                </div>
               );
             })}
           </div>
@@ -294,6 +291,20 @@ export default class EditableSuggestionTableComponent extends Component {
                 Add
               </Button>
             </div>
+            {this.state.itemSelected.detail2.map((item, index) => {
+              return (
+                <div>
+                  <EditableSuggestionItem
+                    key={item.concat(index)}
+                    data={item}
+                    index={index}
+                    updateData={this.updateData}
+                    itemType="detail2"
+                    deleteField={this.deleteField}
+                  />
+                </div>
+              );
+            })}
           </div>
           <div className="est-col">
             <h1> Detail 3</h1>
@@ -312,6 +323,20 @@ export default class EditableSuggestionTableComponent extends Component {
                 Add
               </Button>
             </div>
+            {this.state.itemSelected.detail3.map((item, index) => {
+              return (
+                <div>
+                  <EditableSuggestionItem
+                    key={item.concat(index)}
+                    data={item}
+                    index={index}
+                    updateData={this.updateData}
+                    itemType="detail3"
+                    deleteField={this.deleteField}
+                  />
+                </div>
+              );
+            })}
           </div>
           <div className="est-col">
             <h1> Detail 4</h1>
@@ -330,129 +355,22 @@ export default class EditableSuggestionTableComponent extends Component {
                 Add
               </Button>
             </div>
+            {this.state.itemSelected.detail4.map((item, index) => {
+              return (
+                <div>
+                  <EditableSuggestionItem
+                    key={item.concat(index)}
+                    data={item}
+                    index={index}
+                    updateData={this.updateData}
+                    itemType="detail4"
+                    deleteField={this.deleteField}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
-        {/* <div className="ew-hazard-content">
-          <div className="ew-hazard-col">
-            <h1>detail1 </h1>
-
-            <div className="eh-addField">
-              <Input
-                placeholder=" + Add Detail1"
-                onChange={this.updateAddDetail1Value}
-                allowClear
-              />
-              <Button onClick={this.addDetail1}>
-                <RiAddLine
-                  style={{
-                    marginTop: "3px",
-                  }}
-                />
-                Add
-              </Button>
-            </div>
-           
-          </div>
-          <div className="ew-hazard-col">
-            <h1>Consequences</h1>
-            <div className="eh-addField">
-              <Input
-                placeholder=" + Add Consequence"
-                onChange={this.updateAddConsequenceValue}
-                allowClear
-              />
-              <Button onClick={this.addConsequence}>
-                <RiAddLine
-                  style={{
-                    marginTop: "3px",
-                  }}
-                />
-                Add
-              </Button>
-            </div>
-
-            {this.state.hazardSelected.consequences.map(
-              (consequence, index) => {
-                return (
-                  <EditableHazardItem
-                    key={consequence.concat(index)}
-                    data={consequence}
-                    index={index}
-                    updateData={this.updateData}
-                    itemType="consequence"
-                    deleteField={this.deleteField}
-                  />
-                );
-              }
-            )}
-          </div>
-          <div className="ew-hazard-col">
-            <h1>Preventative Safeguards</h1>
-            <div className="eh-addField">
-              <Input
-                placeholder=" + Add Preventative Safeguards"
-                onChange={this.updateAddPreventativeSafeguardValue}
-                allowClear
-              />
-              <Button onClick={this.addPreventativeSafeguard}>
-                <RiAddLine
-                  style={{
-                    marginTop: "3px",
-                  }}
-                />
-                Add
-              </Button>
-            </div>
-
-            {this.state.hazardSelected.preventativeSafeguards.map(
-              (preventativeSafeguard, index) => {
-                return (
-                  <EditableHazardItem
-                    key={preventativeSafeguard.concat(index)}
-                    data={preventativeSafeguard}
-                    index={index}
-                    updateData={this.updateData}
-                    itemType="preventativeSafeguard"
-                    deleteField={this.deleteField}
-                  />
-                );
-              }
-            )}
-          </div>
-          <div className="ew-hazard-col">
-            <h1>Mitigating Safeguards</h1>
-            <div className="eh-addField">
-              <Input
-                placeholder=" + Add Mitigating Safeguards"
-                onChange={this.updateAddMitigatingSafeguardValue}
-                allowClear
-              />
-              <Button onClick={this.addMitigatingSafeguard}>
-                <RiAddLine
-                  style={{
-                    marginTop: "3px",
-                  }}
-                />
-                Add
-              </Button>
-            </div>
-
-            {this.state.hazardSelected.mitigatingSafeguards.map(
-              (mitigatingSafeguard, index) => {
-                return (
-                  <EditableHazardItem
-                    key={mitigatingSafeguard.concat(index)}
-                    data={mitigatingSafeguard}
-                    index={index}
-                    updateData={this.updateData}
-                    itemType="mitigatingSafeguard"
-                    deleteField={this.deleteField}
-                  />
-                );
-              }
-            )}
-          </div>
-        </div>  */}
       </div>
     );
   }

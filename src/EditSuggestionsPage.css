@@ -76,3 +76,24 @@
   margin-left: 3px;
   margin-right: 2px;
 }
+
+.editable-suggestion-item{
+  font-size: 14px;
+  height: 2.3em;
+  border: 1px solid rgb(207, 205, 205);
+  display: flex;
+  align-items: center;
+  margin-top: 1.5px;
+  margin-left: 3px;
+  margin-right: 3px;
+  border-radius: 5px;
+  overflow: auto;
+}
+
+
+.esi-box-default {
+  display: flex;
+  justify-content: flex-start;
+  width: 95%;
+  /* background-color: chartreuse; */
+}
