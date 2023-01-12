@@ -79,6 +79,7 @@ export default class EditableSuggestionTableComponent extends Component {
     );
     message.success("Saved Item Data to Backend");
 
+    //TODO -TEST THIS FUNCTIONALITY
     axios.post(
       "http://localhost:5000/workshop/updateSuggestion",
       this.state.itemSelected
@@ -221,7 +222,7 @@ export default class EditableSuggestionTableComponent extends Component {
                 onClick={this.saveSuggestionUpdateToBackend}
                 icon={<SaveOutlined />}
               >
-                Save to Backend
+                Save Suggestion to Backend
               </Button>
               <Popconfirm
                 title="Are you sure you want to delete this Suggestion?"

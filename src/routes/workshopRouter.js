@@ -15,6 +15,13 @@ router.route("/suggestions").get((req, res) => {
     .catch((err) => res.status(400).json("Error" + err));
 });
 
+router.route("/suggestions/:id").get((req, res) => {
+  console.log("id:", req.params.id);
+  Suggestion.findById(req.params.id)
+    .then((suggestionDetails) => res.json(suggestionDetails))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
 /**
  * POST - Add suggestions
  */
@@ -61,13 +68,13 @@ router.route("/updateSuggestion").post((req, res) => {
 
   console.log("UPDATING SUGGESTION: id: ", id);
 
-  const updatedSuggestion = new Suggestion({
+  const updatedSuggestion = {
     itemName,
     detail1,
     detail2,
     detail3,
     detail4,
-  });
+  };
 
   Suggestion.findByIdAndUpdate(id, updatedSuggestion)
     .then(() => res.json("Suggestion Updated"))

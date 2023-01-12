@@ -28,7 +28,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 8%;
+  height: 10%;
 }
 .est-header-row-1{
   display: flex;
@@ -51,7 +51,7 @@
   
 }
 .est-suggestion-table{
-  height: 92%;
+  height: 90%;
   display: flex;
   flex-direction: row;
   /* background-color: aquamarine; */
