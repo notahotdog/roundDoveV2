@@ -66,7 +66,7 @@ router.route("/updateSuggestion").post((req, res) => {
   const detail3 = req.body.detail3;
   const detail4 = req.body.detail4;
 
-  console.log("UPDATING SUGGESTION: id: ", id);
+  // console.log("UPDATING SUGGESTION: id: ", id);
 
   const updatedSuggestion = {
     itemName,

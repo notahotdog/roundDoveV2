@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { Menu } from "antd";
 import "../../EditWorkshopPage.css";
+import DisplayItemsComponent from "./DisplayItemsComponent";
 const { SubMenu } = Menu;
 
 export default class EditWorkshopBody extends Component {
@@ -27,6 +28,11 @@ export default class EditWorkshopBody extends Component {
     this.toggleAddSubNodeModalVisible =
       this.toggleAddSubNodeModalVisible.bind(this);
     this.toggleAddItemModalVisible = this.toggleAddItemModalVisible.bind(this);
+  }
+
+  setIsItemAllocated(bool) {
+    //TODO - Confirm what this does
+    this.setState({ isItemAllocated: bool });
   }
 
   toggleAddNodeModalVisible() {
@@ -66,35 +72,17 @@ export default class EditWorkshopBody extends Component {
       itemIndex
     );
 
-    this.setState({ itemLoaded: item });
+    this.setState({ itemLoaded: item, isItemAllocated: true });
   }
 
   render() {
     const { data } = this.props;
+    const { isItemAllocated } = this.state;
+
+    // var editItemMode = !this.state.savedSelection; // i
     return (
       <div className="edit-workshop-body">
         <div className="ewb-left-col">
-          {/* {data.nodes.map((node, nodeIndex) => {
-            return (
-              <div>
-                <div>Node Name: {node.nodeName}</div>;
-                {node.subnodes.map((subnode, subnodeIndex) => {
-                  return (
-                    <div>
-                      <div> Subnode Name: {subnode.subnodeName}</div>
-                      {subnode.items.map((item, itemIndex) => {
-                        return (
-                          <div>
-                            <div> itemName: {item.itemName}</div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })} */}
           <Menu
             onClick={this.handleClick}
             style={{ width: "100%" }}
@@ -149,7 +137,7 @@ export default class EditWorkshopBody extends Component {
                                   subnodeIndex,
                                   itemIndex
                                 );
-                                this.setItemSelectedTrue();
+                                // this.setItemSelectedTrue();
                               }}
                             >
                               {item.itemName}
@@ -164,8 +152,18 @@ export default class EditWorkshopBody extends Component {
             })}
           </Menu>
         </div>
+
         {/* {console.log("Edit workshop body", this.props.data)} */}
-        <div className="ewb-right-col">something</div>
+        <div className="ewb-right-col">
+          {isItemAllocated ? (
+            <DisplayItemsComponent
+              itemName={this.state.itemLoaded.itemName}
+              itemToBeEdited={this.state.itemLoaded}
+            />
+          ) : (
+            <div> Please load data</div>
+          )}
+        </div>
       </div>
     );
   }

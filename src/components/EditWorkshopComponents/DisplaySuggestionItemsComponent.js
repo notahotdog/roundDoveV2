@@ -1,37 +1,26 @@
-//TODO EVALUATE THIS COMPONENT
 import React, { Component } from "react";
 import { Checkbox } from "antd";
+import "../../EditWorkshopPage.css";
 
-export default class DisplayHazardsItem extends Component {
+//TODO - this is just to select the individual - whether true or not
+export default class DisplaySuggestionItemsComponent extends Component {
   constructor(props) {
     super(props);
-
-    this.checkItem = this.checkItem.bind(this);
     this.updateChecked = this.updateChecked.bind(this);
   }
 
-  onChange(e) {
-    console.log(`checked = ${e.target.checked}`);
-  }
-
-  checkItem() {
-    console.log("Parents called child");
-    this.setState({ checked: true });
-  }
-
   updateChecked() {
-    // console.log("updateChecked: ", this.props.index, this.props.dType);
+    console.log("updateChecked: ", this.props.index, this.props.dType); //Just used for debugging, dType, used for the parent command to indicate which portion needs to be modified
     const { dType, index } = this.props;
-    this.props.toggleChecked(dType, index);
+    this.props.toggleChecked(dType, index); //why need dType
   }
 
   render() {
     return (
-      <div className="dhi-box">
+      <div className="display-suggestion-item">
         <div className="dh-item-content">{this.props.item.name}</div>
 
         <Checkbox
-          onChange={this.onChange}
           checked={this.props.item.visible}
           disabled={this.props.isDisabled}
           onClick={this.updateChecked}

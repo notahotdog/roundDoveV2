@@ -151,7 +151,7 @@ export function addVisibilityElement(obj, isItemAllocated) {
   });
 
   jsonData.detail4 = updatedDetail4List;
-  console.log("Updated visible element: ", jsonData);
+  // console.log("Updated visible element: ", jsonData);
   return jsonData;
 }
 
