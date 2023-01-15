@@ -1,12 +1,12 @@
 //TODO - Implement the header choice
 import React, { Component } from "react";
-import { Button, Select, Checkbox, message } from "antd";
+import { Button, Select } from "antd";
 import { addVisibilityElement } from "../../util/Utilities";
 
 import axios from "axios";
 const { Option } = Select;
 
-//Selects between the list of suggestions that are available
+//Selects between the list of suggestions that are available Passes back to parent
 export default class SelectSuggestionComponent extends Component {
   _isMounted = false;
   constructor(props) {
@@ -16,9 +16,10 @@ export default class SelectSuggestionComponent extends Component {
       suggestionSelected: false,
     };
     this.onChange = this.onChange.bind(this);
+    this.saveSuggestionToItem = this.saveSuggestionToItem.bind(this);
   }
 
-  //Load once on initialisation
+  //Load once on initialization
   componentDidMount() {
     this._isMounted = true;
     console.log("Select Suggestion Component Mounted");
@@ -42,6 +43,18 @@ export default class SelectSuggestionComponent extends Component {
   onChange(value) {
     this.setState({ suggestionSelected: true });
     console.log("Suggestion Selected:", value);
+    console.log("Table value: ", this.state.suggestionList);
+    var result = this.state.suggestionList.filter((obj) => {
+      return obj._id === value;
+    }); //This returns as a list of obj w length 1, thats why need to [0]
+    this.props.selectSuggestion(result[0]);
+
+    //TODO - Pass to parent
+  }
+
+  saveSuggestionToItem() {
+    //TODO - Parent function trigger save, allocate to parent
+    this.props.saveSuggestionToItem();
   }
 
   //OnClick -> Should pass template data to parent class -> parent class should pass data to child which modifies the
@@ -57,14 +70,11 @@ export default class SelectSuggestionComponent extends Component {
           placeholder="Select a suggestion"
           optionFilterProp="children"
           onChange={this.onChange}
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}
-          onSearch={this.onSearch}
           filterOption={(input, option) =>
             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }
         >
-          {this.state.suggestionList.map((suggestion, sIx) => {
+          {this.state.suggestionList.map((suggestion) => {
             return (
               <Option value={suggestion._id} key={suggestion._id}>
                 {suggestion.itemName}
@@ -74,20 +84,14 @@ export default class SelectSuggestionComponent extends Component {
         </Select>
         {suggestionSelected ? (
           <Button
-            // onClick={this.saveHazardChoice} //Backend shit
+            onClick={this.saveSuggestionToItem} //Backend shit
             style={{ marginLeft: "20px" }}
           >
             {" "}
-            Edit Selection
+            Allocate and save suggestion to item
           </Button>
         ) : (
-          <Button
-            // onClick={this.saveHazardChoice} //Backend Shit
-            style={{ marginLeft: "20px" }}
-          >
-            {" "}
-            Save Selection
-          </Button>
+          <div></div>
         )}
       </div>
     );
