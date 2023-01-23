@@ -54,7 +54,7 @@ export default class SelectSuggestionComponent extends Component {
 
   saveSuggestionToItem() {
     //TODO - Parent function trigger save, allocate to parent
-    this.props.saveSuggestionToItem();
+    this.props.saveSuggestionToItem(); //Todo - toggle this to be true
   }
 
   //OnClick -> Should pass template data to parent class -> parent class should pass data to child which modifies the
@@ -62,7 +62,7 @@ export default class SelectSuggestionComponent extends Component {
   render() {
     const { suggestionSelected } = this.state;
     return (
-      <div>
+      <div className="select-suggestion-component">
         <div>Select Suggestion</div>
         <Select
           showSearch

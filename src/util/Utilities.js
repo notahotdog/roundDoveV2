@@ -110,7 +110,7 @@ export function addVisibilityToWorkshop(workshopObjData, isItemAllocated) {
 //TODO - Refactor this thing erghjhh - Whos calling this
 /**
  * Adds visiblity to an object
- * @param {json} hazard Obj
+ * @param {json}  Obj
  * @returns item obj with all elements with visibility parameter
  */
 export function addVisibilityElement(obj, isItemAllocated) {
@@ -194,7 +194,7 @@ export function checkFileTypeExcel(file) {
 }
 
 /**
- * Checks if the jsonObject is in the correct format
+ * Checks if the jsonObject is in the correct format //TODO - REMOVE THIS if not used
  * @param {object} jsonObj to be evaluated
  * @returns
  */

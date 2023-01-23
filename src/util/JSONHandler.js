@@ -172,6 +172,7 @@ export const subnodeTemplate = {
 export const itemTemplate = {
   itemName: "Default Item",
   itemAllocated: false,
+  suggestionAllocated: false, //TODO - Check on this
   detail1: ["Detail 1"],
   detail2: ["Detail 2"],
   detail3: ["Detail 3"],

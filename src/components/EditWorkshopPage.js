@@ -56,6 +56,7 @@ class EditWorkshop extends Component {
                 subnodeName: "",
                 items: [
                   {
+                    suggestionAllocated: false,
                     itemName: "",
                     detail1: [""],
                     detail2: [""],
@@ -94,6 +95,7 @@ class EditWorkshop extends Component {
 
     this.loadData = this.loadData.bind(this);
     this.updateName = this.updateName.bind(this);
+    this.updateSuggestionToItem = this.updateSuggestionToItem.bind(this);
   }
 
   componentDidMount() {
@@ -130,7 +132,7 @@ class EditWorkshop extends Component {
     var itemIndex = this.state.itemSelIndex;
 
     var data = { ...this.state.data };
-    console.log("UPDATE NAME");
+    console.log("UPDATING NAME");
     console.log(
       "Node sel: ",
       this.state.nodeSelected,
@@ -161,6 +163,8 @@ class EditWorkshop extends Component {
       tags: data.tags,
       nodes: data.nodes,
     };
+
+    console.log("Saving to Backend -workshop: ", payload);
 
     // console.log("Update Data to BACKEND: ", payload);
     axios.post("http://localhost:5000/workshop/updateWorkshop", payload);
@@ -308,16 +312,6 @@ class EditWorkshop extends Component {
    * @param {string} updatedName - name to be changed
    */
   closeAndSaveName(propertyType, updatedName) {
-    // console.log(`Saving new ${propertyType} name: `, updatedName);
-    // console.log("Before save");
-    // console.log(
-    //   "Node sel: ",
-    //   this.state.nodeSelected,
-    //   "\nsubnode sel:",
-    //   this.state.subnodeSelected,
-    //   "\nitem sel:",
-    //   this.state.itemSelected
-    // );
     if (propertyType === "node") {
       this.setState({ nodeSelected: updatedName }, () => {
         this.updateName();
@@ -394,6 +388,51 @@ class EditWorkshop extends Component {
     });
   }
 
+  //TODO - Create Some suggestion update
+  updateSuggestionToItem(suggestionData) {
+    //use the Node selected Values
+    //TODO - Figure out why suggestionAllocated is not being passed
+    var nodeName = this.state.nodeSelected;
+    var nodeIndex = this.state.nodeSelIndex;
+    var subnodeName = this.state.subnodeSelected;
+    var subnodeIndex = this.state.subnodeSelIndex;
+    var itemName = this.state.itemSelected;
+    var itemIndex = this.state.itemSelIndex;
+
+    //TODO - Put in the suggestionData
+    var data = { ...this.state.data }; //should copy the suggestionData
+    console.log("UPDATING SuggestionItem -editWorkshopPage ");
+    console.log(
+      "Node sel: ",
+      this.state.nodeSelected,
+      "\nsubnode sel:",
+      this.state.subnodeSelected,
+      "\nitem sel:",
+      this.state.itemSelected
+    );
+
+    data.nodes[nodeIndex].nodeName = nodeName;
+    data.nodes[nodeIndex].subnodes[subnodeIndex].subnodeName = subnodeName;
+    data.nodes[nodeIndex].subnodes[subnodeIndex].items[itemIndex].itemName =
+      itemName;
+    const { detail1, detail2, detail3, detail4, suggestionAllocated } =
+      suggestionData;
+    data.nodes[nodeIndex].subnodes[subnodeIndex].items[
+      itemIndex
+    ].suggestionAllocated = suggestionAllocated;
+
+    data.nodes[nodeIndex].subnodes[subnodeIndex].items[itemIndex].detail1 =
+      detail1;
+    data.nodes[nodeIndex].subnodes[subnodeIndex].items[itemIndex].detail2 =
+      detail2;
+    data.nodes[nodeIndex].subnodes[subnodeIndex].items[itemIndex].detail3 =
+      detail3;
+    data.nodes[nodeIndex].subnodes[subnodeIndex].items[itemIndex].detail4 =
+      detail4;
+    console.log("Update Suggestion To Item -editWorkshopPage: ", data);
+    this.saveDataToBackend(data);
+  }
+
   render() {
     const {
       isOpenEditNodeNameModal,
@@ -457,10 +496,14 @@ class EditWorkshop extends Component {
         />
         <EditWorkshopBody
           data={this.state.data}
+          nodeSel={this.state.nodeSelIndex}
+          subnodeSel={this.state.subnodeSelIndex}
+          itemSel={this.state.itemSelIndex}
           setNodeSelected={this.setNodeSelected}
           showAddNodeModal={this.toggleAddNodeModal}
           showAddSubnodeModal={this.toggleAddSubnodeModal}
           showAddItemModal={this.toggleAddItemModal}
+          updateSuggestionToItem={this.updateSuggestionToItem}
         />
       </div>
     );

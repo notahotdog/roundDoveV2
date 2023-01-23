@@ -12,7 +12,7 @@ export default class DisplaySuggestionItemsComponent extends Component {
   updateChecked() {
     console.log("updateChecked: ", this.props.index, this.props.dType); //Just used for debugging, dType, used for the parent command to indicate which portion needs to be modified
     const { dType, index } = this.props;
-    this.props.toggleChecked(dType, index); //why need dType
+    this.props.toggleChecked(dType, index); //dType to inform parent toggleFunction of which array to amend
   }
 
   render() {
@@ -22,7 +22,6 @@ export default class DisplaySuggestionItemsComponent extends Component {
 
         <Checkbox
           checked={this.props.item.visible}
-          disabled={this.props.isDisabled}
           onClick={this.updateChecked}
           style={{ marginLeft: "auto", marginRight: "5px" }}
         />

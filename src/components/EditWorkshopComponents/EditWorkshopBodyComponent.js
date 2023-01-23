@@ -12,27 +12,23 @@ export default class EditWorkshopBody extends Component {
     this.state = {
       itemLoaded: {
         itemName: "",
-        itemAllocated: false,
+        suggestionAllocated: false,
         detail1: [""],
         detail2: [""],
         detail3: [""],
         detail4: [""],
-        isItemAllocated: false,
       },
       nodeIndexToAddSubnode: 0,
       subnodeIndexToAddItem: 0,
       isItemAllocated: false,
+      isSuggestionLoaded: false,
     };
 
     this.toggleAddNodeModalVisible = this.toggleAddNodeModalVisible.bind(this);
     this.toggleAddSubNodeModalVisible =
       this.toggleAddSubNodeModalVisible.bind(this);
     this.toggleAddItemModalVisible = this.toggleAddItemModalVisible.bind(this);
-  }
-
-  setIsItemAllocated(bool) {
-    //TODO - Confirm what this does
-    this.setState({ isItemAllocated: bool });
+    this.saveSuggestionToItem = this.saveSuggestionToItem.bind(this);
   }
 
   toggleAddNodeModalVisible() {
@@ -54,15 +50,7 @@ export default class EditWorkshopBody extends Component {
     this.props.showAddItemModal();
   }
 
-  //TODO - Complete
-  setItemSelectedTrue() {}
-
-  //Everytime trigger click - updates the node/subnodeIndex,item selected
-
   updateClickedItem(node, subnode, item, nodeIndex, subnodeIndex, itemIndex) {
-    console.log("State of Menu Item Clicked Item", item);
-    //TODO - Instead of the nodeName and subNodeName should pass in the index of all the components
-    //Should be able to extract the node by themselves
     this.props.setNodeSelected(
       node.nodeName,
       subnode.subnodeName,
@@ -75,8 +63,15 @@ export default class EditWorkshopBody extends Component {
     this.setState({ itemLoaded: item, isItemAllocated: true });
   }
 
+  saveSuggestionToItem(suggestionData) {
+    console.log("Saving suggestion to item"); //Pass to parent which triggers, the node,SUBNODE AND REPLACES AT ITEMINDEX
+    this.props.updateSuggestionToItem(suggestionData);
+  }
+
+  //TODO - Drill down the data to the most lower layer
+
   render() {
-    const { data } = this.props;
+    const { data, nodeSel, subnodeSel, itemSel } = this.props;
     const { isItemAllocated } = this.state;
 
     // var editItemMode = !this.state.savedSelection; // i
@@ -153,12 +148,16 @@ export default class EditWorkshopBody extends Component {
           </Menu>
         </div>
 
-        {/* {console.log("Edit workshop body", this.props.data)} */}
         <div className="ewb-right-col">
           {isItemAllocated ? (
             <DisplayItemsComponent
               itemName={this.state.itemLoaded.itemName}
-              itemToBeEdited={this.state.itemLoaded}
+              data={
+                this.props.data.nodes[nodeSel].subnodes[subnodeSel].items[
+                  itemSel
+                ]
+              }
+              allocateSuggestionToItem={this.saveSuggestionToItem}
             />
           ) : (
             <div> Please load data</div>

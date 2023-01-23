@@ -11,10 +11,14 @@ const itemVisibleSchema = new Schema({
   },
 });
 
-//TODO - Decide on the name, and populate contents - changed From Hazard Schema - How is this different from item.model
+//TODO - Decide on the name, and populate contents - changed From Hazard Schema - How is this different from item.model //TODO - suggestion allocated
 const itemSchema = new Schema({
   itemName: {
     type: String,
+  },
+  suggestionAllocated: {
+    //Todo - check against this with other components
+    type: Boolean,
   },
   detail1: {
     type: [itemVisibleSchema],

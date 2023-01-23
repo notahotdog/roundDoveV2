@@ -14,9 +14,9 @@ export default class DisplayItemsComponent extends Component {
       itemNameParent: "", //WHAT IS THIS
       suggestionList: [""],
       itemAllocated: false,
-      parentItem: this.props.itemName,
       suggestionSelected: {
         id: "",
+        suggestionAllocated: false,
         itemName: "Default",
         detail1: ["Default"],
         detail2: ["Default"],
@@ -26,10 +26,9 @@ export default class DisplayItemsComponent extends Component {
       savedSelection: false,
       isItemSelected: false, //ShouldBeTrue if not this component will not show
       isSuggestionSelected: false,
+      suggestionLocked: false, //Change in the suggestion will trigger this lock to true ,
     };
 
-    this.onChange = this.onChange.bind(this);
-    // this.saveItemChoice = this.saveItemChoice.bind(this);
     this.toggleChecked = this.toggleChecked.bind(this);
     this.toggleCheckAll = this.toggleCheckAll.bind(this);
 
@@ -38,45 +37,26 @@ export default class DisplayItemsComponent extends Component {
   }
 
   //Loads the suggestion list , allocate to selected item
-  componentDidMount() {}
-
-  // saveItemChoice() {
-  //   message.success("Data saved to backend");
-  //   this.setState({ savedSelection: !this.state.savedSelection });
-  //   var updatedState = this.state.suggestionSelected;
-  //   updatedState.itemAllocated = true; //THIS LOOKS A BIT WEIRD
-  //   this.props.saveUpdatedNode(updatedState);
-  // }
-
-  // saveHazardChoice() {
-  //   //Saves Choice within parent component
-  //   message.success("Data saved to backend");
-  //   this.setState({ savedSelection: !this.state.savedSelection });
-  //   var updatedState = this.state.hazardSelected;
-  //   updatedState.hazardAllocated = true;
-  //   this.props.saveUpdatedNode(updatedState);
-  //   // this.props.saveUpdatedNode(this.state.hazardSelected);
-  //   //Passes Hazard to Parent Component
-  //   // const {hazardSelected} = this.state;
-  //   // this.props.saveHazardSelection(hazardSelected);
-  // }
-
-  /**
-   *  Updates when item box select is changed
-   * @param {e} value
-   */
-  onChange(value) {
-    this.setState({ itemAllocated: false, savedSelection: true });
-
-    this.setState({ isItemSelected: true });
-    console.log(`selected ${value}`);
-    const { itemList } = this.state;
-
-    itemList.forEach((item) => {
-      if (item._id === value) {
-        this.setState({ suggestionSelected: item });
-      }
-    });
+  componentDidMount() {
+    //  if this.props.suggestionAllocated - update the checklist items
+    const { data } = this.props;
+    if (data.suggestionAllocated) {
+      this.setState({ suggestionSelected: data }); //TODO - Change this to everytime they detect a change
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (this.props.data.itemName != prevProps.itemName) {
+      this.setState({ suggestionLocked: true }, () => {
+        console.log("Loaded new data : ", this.props.data);
+        this.setState({ suggestionSelected: this.props.data });
+      });
+    } else if (
+      this.props.data !== prevProps.data &&
+      !this.state.suggestionLocked
+    ) {
+      console.log("Loaded new data : ", this.props.data);
+      this.setState({ suggestionSelected: this.props.data });
+    }
   }
 
   /**
@@ -86,14 +66,14 @@ export default class DisplayItemsComponent extends Component {
    */
   toggleCheckAll(e, itemType) {
     var checkAssert = e.target.checked;
-    const { itemSelected } = this.state;
+    const { suggestionSelected } = this.state;
 
-    var obj = { ...itemSelected };
+    var obj = { ...suggestionSelected };
 
-    var detail1 = [...itemSelected.detail1];
-    var detail2 = [...itemSelected.detail2];
-    var detail3 = [...itemSelected.detail3];
-    var detail4 = [...itemSelected.detail4];
+    var detail1 = [...suggestionSelected.detail1];
+    var detail2 = [...suggestionSelected.detail2];
+    var detail3 = [...suggestionSelected.detail3];
+    var detail4 = [...suggestionSelected.detail4];
 
     if (itemType === "detail1") {
       detail1.forEach((item) => {
@@ -118,7 +98,7 @@ export default class DisplayItemsComponent extends Component {
     obj.detail3 = detail3;
     obj.detail4 = detail4;
 
-    this.setState({ itemSelected: obj });
+    this.setState({ suggestionSelected: obj });
   }
 
   /**
@@ -127,13 +107,13 @@ export default class DisplayItemsComponent extends Component {
    * @param {num} index of field to be modified
    */
   toggleChecked(itemType, index) {
-    const { itemSelected } = this.state;
-    var obj = { ...itemSelected };
+    const { suggestionSelected } = this.state;
+    var obj = { ...suggestionSelected };
 
-    var detail1 = [...itemSelected.detail1];
-    var detail2 = [...itemSelected.detail2];
-    var detail3 = [...itemSelected.detail3];
-    var detail4 = [...itemSelected.detail4];
+    var detail1 = [...suggestionSelected.detail1];
+    var detail2 = [...suggestionSelected.detail2];
+    var detail3 = [...suggestionSelected.detail3];
+    var detail4 = [...suggestionSelected.detail4];
 
     if (itemType === "detail1") {
       detail1[index].visible = !detail1[index].visible;
@@ -149,8 +129,9 @@ export default class DisplayItemsComponent extends Component {
     obj.detail2 = detail2;
     obj.detail3 = detail3;
     obj.detail4 = detail4;
+    console.log("TOGGLE CHECKED: ", itemType, "\nObj:", obj);
 
-    this.setState({ itemSelected: obj });
+    this.setState({ suggestionSelected: obj });
   }
 
   //Updates the state table on current selection
@@ -158,34 +139,45 @@ export default class DisplayItemsComponent extends Component {
     this.setState({
       suggestionSelected: suggestionData,
       isSuggestionSelected: true,
+      suggestionLocked: true,
     });
     console.log("Suggestion data: ", suggestionData);
   }
 
   saveSuggestionToItem() {
-    //TODO - Toggles the save to the backend
-    console.log("Saving suggestion Backend");
+    //TODO - Toggles the save to the backend - Figure out how to carry out this save functionality
+
+    //Perform some update
+    const { suggestionSelected } = this.state;
+    var saveObj = { ...suggestionSelected }; //Indicates that suggestionAllocated = true
+    saveObj.suggestionAllocated = true;
+
+    console.log("Saving suggestion Backend: ", saveObj);
+    this.props.allocateSuggestionToItem(saveObj);
   }
+
+  //TODO Should do a conditional check to check if suggestionAllocated  - if yes -> Triggers a load
+  //TODO - check whether suggestion allocated: - if yes then display the parent component, if not then load from the child isSuggestionComponent
 
   render() {
     const { suggestionSelected, isSuggestionSelected } = this.state;
-    // var editHazardMode = !this.state.savedSelection; // if the selection is not saved(false) , edit Hazard
-    // const updateHazardData = this.props.hazardToBeEdited;
-    // const isHazardAllocated = this.state.hazardAllocated;
-    // console.log("isHAZARD ALLOCATE", isHazardAllocated);
+    const { data } = this.props;
 
     return (
       //Should be able to select between what they want to use and not - Header component
-      <>
+      <div className="display-items-component">
         <SelectSuggestionComponent
           selectSuggestion={this.selectSuggestion}
           saveSuggestionToItem={this.saveSuggestionToItem}
         />
-        {isSuggestionSelected ? (
+        <div>PARENT DATA</div>
+        <div>{JSON.stringify(this.props.data)}</div>
+        <div> SUGGESTION Seleted: </div>
+        <div>{JSON.stringify(this.state.suggestionSelected)}</div>
+        {data.suggestionAllocated || isSuggestionSelected ? (
           <>
-            <div>Yes: {suggestionSelected._id}</div>
-            <div className="display-items-component">
-              <div className="dh-col">
+            <div className="dic-body">
+              <div className="dic-col">
                 <h1 className="dh-col-header">Detail 1</h1>
                 <div className="dh-checkbox">
                   <Checkbox onChange={(e) => this.toggleCheckAll(e, "detail1")}>
@@ -199,13 +191,12 @@ export default class DisplayItemsComponent extends Component {
                       item={suggestion}
                       index={ix}
                       dType="detail1"
-                      isDisabled={true}
                       toggleChecked={this.toggleChecked}
                     />
                   );
                 })}
               </div>
-              <div className="dh-col">
+              <div className="dic-col">
                 <h1 className="dh-col-header">Detail 2</h1>
                 <div className="dh-checkbox">
                   <Checkbox onChange={(e) => this.toggleCheckAll(e, "detail2")}>
@@ -219,18 +210,15 @@ export default class DisplayItemsComponent extends Component {
                       item={suggestion}
                       index={ix}
                       dType="detail2"
-                      isDisabled={true}
                       toggleChecked={this.toggleChecked}
                     />
                   );
                 })}
               </div>
-              <div className="dh-col">
+              <div className="dic-col">
                 <h1 className="dh-col-header">Detail 3</h1>
                 <div className="dh-checkbox">
-                  <Checkbox
-                    onChange={(e) => this.toggleCheckAll(e, "detail 3")}
-                  >
+                  <Checkbox onChange={(e) => this.toggleCheckAll(e, "detail3")}>
                     Select All
                   </Checkbox>
                 </div>
@@ -241,13 +229,12 @@ export default class DisplayItemsComponent extends Component {
                       item={suggestion}
                       index={ix}
                       dType="detail3"
-                      isDisabled={true}
                       toggleChecked={this.toggleChecked}
                     />
                   );
                 })}
               </div>
-              <div className="dh-col">
+              <div className="dic-col">
                 <h1 className="dh-col-header">Detail 4</h1>
                 <div className="dh-checkbox">
                   <Checkbox onChange={(e) => this.toggleCheckAll(e, "detail4")}>
@@ -261,7 +248,6 @@ export default class DisplayItemsComponent extends Component {
                       item={suggestion}
                       index={ix}
                       dType="detail4"
-                      isDisabled={true}
                       toggleChecked={this.toggleChecked}
                     />
                   );
@@ -270,9 +256,95 @@ export default class DisplayItemsComponent extends Component {
             </div>
           </>
         ) : (
-          <div>No</div>
+          <>
+            <div> Select Something</div>
+          </>
         )}
-      </>
+        {/* {isSuggestionSelected ? (
+          <>
+            <div className="dic-body">
+              <div className="dic-col">
+                <h1 className="dh-col-header">Detail 1</h1>
+                <div className="dh-checkbox">
+                  <Checkbox onChange={(e) => this.toggleCheckAll(e, "detail1")}>
+                    Select All
+                  </Checkbox>
+                </div>
+
+                {suggestionSelected.detail1.map((suggestion, ix) => {
+                  return (
+                    <DisplaySuggestionItemsComponent
+                      item={suggestion}
+                      index={ix}
+                      dType="detail1"
+                      toggleChecked={this.toggleChecked}
+                    />
+                  );
+                })}
+              </div>
+              <div className="dic-col">
+                <h1 className="dh-col-header">Detail 2</h1>
+                <div className="dh-checkbox">
+                  <Checkbox onChange={(e) => this.toggleCheckAll(e, "detail2")}>
+                    Select All
+                  </Checkbox>
+                </div>
+
+                {suggestionSelected.detail2.map((suggestion, ix) => {
+                  return (
+                    <DisplaySuggestionItemsComponent
+                      item={suggestion}
+                      index={ix}
+                      dType="detail2"
+                      toggleChecked={this.toggleChecked}
+                    />
+                  );
+                })}
+              </div>
+              <div className="dic-col">
+                <h1 className="dh-col-header">Detail 3</h1>
+                <div className="dh-checkbox">
+                  <Checkbox onChange={(e) => this.toggleCheckAll(e, "detail3")}>
+                    Select All
+                  </Checkbox>
+                </div>
+
+                {suggestionSelected.detail3.map((suggestion, ix) => {
+                  return (
+                    <DisplaySuggestionItemsComponent
+                      item={suggestion}
+                      index={ix}
+                      dType="detail3"
+                      toggleChecked={this.toggleChecked}
+                    />
+                  );
+                })}
+              </div>
+              <div className="dic-col">
+                <h1 className="dh-col-header">Detail 4</h1>
+                <div className="dh-checkbox">
+                  <Checkbox onChange={(e) => this.toggleCheckAll(e, "detail4")}>
+                    Select All
+                  </Checkbox>
+                </div>
+
+                {suggestionSelected.detail4.map((suggestion, ix) => {
+                  return (
+                    <DisplaySuggestionItemsComponent
+                      item={suggestion}
+                      index={ix}
+                      dType="detail4"
+                      toggleChecked={this.toggleChecked}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          </>
+        ) : (
+          <div>Nothing rendered</div>
+        )} */}
+      </div>
     );
   }
 }

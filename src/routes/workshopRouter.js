@@ -87,9 +87,6 @@ router.route("/").get((req, res) => {
     .then((workshops) => res.json(workshops))
     .catch((err) => res.status(400).json("Error: " + err));
 });
-router.route("/testPoint").get((req, res) => {
-  console.log("get item");
-});
 
 //Individual Workshop Data Methods
 //GET - Individual workshop data based on id
